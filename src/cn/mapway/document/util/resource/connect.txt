@@ -1,0 +1,304 @@
+package ${package};
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLEncoder;
+import org.nutz.json.Json;
+import java.util.List;
+
+${importModules}
+
+/**
+ * @author apigen by zhangjianshe@navinfo.com
+ */
+public class ${name} {
+
+	${modules}
+	
+	protected String apiBase="${basepath}";
+
+	/**
+	 * 设置接口连接基地址
+	 * 
+	 * @param base
+	 */
+	public void setApiBase(String base) {
+		apiBase = base;
+	}
+
+	/**
+	 * 输出日志
+	 * 
+	 * @param msg
+	 */
+	private void log(String msg) {
+		System.out.println(msg);
+	}
+
+	/**
+	 * 网络获取数据 GET
+	 * 
+	 * @param path
+	 * @param data
+	 * @param type
+	 * @return
+	 * @throws Exception
+	 */
+	protected final String get(String path, String data) throws Exception {
+		String server = apiBase + path + "?data="
+				+ URLEncoder.encode(data, "UTF-8");
+
+		URL httpurl = null;
+		try {
+			httpurl = new URL(server);
+		} catch (MalformedURLException e1) {
+			throw new Exception(e1.getMessage());
+		}
+
+		String txt = "";
+		try {
+			HttpURLConnection connection = (HttpURLConnection) httpurl
+					.openConnection();
+			connection.setConnectTimeout(10 * 1000);
+			connection.setReadTimeout(20 * 1000);
+			connection.setRequestMethod("GET");// 提交模式
+			connection.setDoOutput(false);// 是否输入参数
+			connection.setUseCaches(false); // 获得服务器最新的信息
+			connection.connect();
+
+			InputStream inStream = connection.getInputStream();
+
+			ByteArrayOutputStream out = new ByteArrayOutputStream();
+			int count = 0;
+			byte[] bytes = new byte[1024];
+			count = inStream.read(bytes);
+			while (count > 0) {
+				out.write(bytes, 0, count);
+				count = inStream.read(bytes);
+			}
+
+			txt = new String(out.toByteArray());
+
+		} catch (IOException e) {
+			e.printStackTrace();
+			String msg = e.getMessage();
+			if (msg == null) {
+				throw new IOException("未知的服务器错误");
+			} else if (e.getMessage().contains("failed to connect")) {
+				throw new IOException("连接服务器超时了,请再试一次");
+			} else {
+				throw e;
+			}
+		}
+		return txt;
+	}
+
+	/**
+	 * 网络获取数据 GET
+	 * 
+	 * @param path
+	 * @param data
+	 * @param type
+	 * @return
+	 * @throws Exception
+	 */
+	protected final <T> T webget(String path, String data, Class<T> type)
+			throws Exception {
+		String server = apiBase + path + "?data="
+				+ URLEncoder.encode(data, "UTF-8");
+
+		URL httpurl = null;
+		try {
+			httpurl = new URL(server);
+		} catch (MalformedURLException e1) {
+			throw new Exception(e1.getMessage());
+		}
+
+		String txt = "";
+		try {
+			HttpURLConnection connection = (HttpURLConnection) httpurl
+					.openConnection();
+			connection.setConnectTimeout(10 * 1000);
+			connection.setReadTimeout(20 * 1000);
+			connection.setRequestMethod("GET");// 提交模式
+			connection.setDoOutput(false);// 是否输入参数
+			connection.setUseCaches(false); // 获得服务器最新的信息
+			connection.connect();
+
+			InputStream inStream = connection.getInputStream();
+
+			ByteArrayOutputStream out = new ByteArrayOutputStream();
+			int count = 0;
+			byte[] bytes = new byte[1024];
+			count = inStream.read(bytes);
+			while (count > 0) {
+				out.write(bytes, 0, count);
+				count = inStream.read(bytes);
+			}
+
+			txt = new String(out.toByteArray());
+
+		} catch (IOException e) {
+			e.printStackTrace();
+			String msg = e.getMessage();
+			if (msg == null) {
+				throw new IOException("未知的服务器错误");
+			} else if (e.getMessage().contains("failed to connect")) {
+				throw new IOException("连接服务器超时了,请再试一次");
+			} else {
+				throw e;
+			}
+		}
+
+		if(type.getSimpleName().equals("String"))
+		{
+			return (T)txt;
+		}
+		else
+		{
+			T rdata = Json.fromJson(type, txt);
+			return rdata;
+		}
+	}
+
+	/**
+	 * 网络获取数据
+	 * 
+	 * @param path
+	 * @param data
+	 * @param type
+	 * @return
+	 * @throws Exception
+	 */
+	protected final <T> T webpost(String path, String data, Class<T> type)
+			throws Exception {
+		String server = apiBase + path;
+
+		URL httpurl = null;
+		try {
+			httpurl = new URL(server);
+		} catch (MalformedURLException e1) {
+			throw new Exception(e1.getMessage());
+		}
+		// System.out.println(server);
+		String txt = "";
+		try {
+			HttpURLConnection connection = (HttpURLConnection) httpurl
+					.openConnection();
+			connection.setConnectTimeout(10 * 1000);
+			connection.setReadTimeout(20 * 1000);
+			connection.setRequestMethod("POST");// 提交模式
+			connection.setDoOutput(true);// 是否输入参数
+			connection.setUseCaches(false); // 获得服务器最新的信息
+			// connection.setAllowUserInteraction(false);
+
+			OutputStream out1 = connection.getOutputStream();
+			out1.write(data.getBytes("UTF-8"));
+			out1.flush();
+
+			InputStream inStream = connection.getInputStream();
+
+			ByteArrayOutputStream out = new ByteArrayOutputStream();
+			int count = 0;
+			byte[] bytes = new byte[1024];
+			count = inStream.read(bytes);
+			while (count > 0) {
+				out.write(bytes, 0, count);
+				count = inStream.read(bytes);
+			}
+
+			txt = new String(out.toByteArray());
+
+			// System.out.println(txt);
+		} catch (IOException e) {
+			e.printStackTrace();
+			String msg = e.getMessage();
+			if (msg == null) {
+				throw new IOException("未知的服务器错误");
+			} else if (e.getMessage().contains("failed to connect")) {
+				throw new IOException("连接服务器超时了,请再试一次");
+			} else {
+				throw e;
+			}
+		}
+
+		if(type.getSimpleName().equals("String"))
+		{
+			return (T)txt;
+		}
+		else
+		{
+			T rdata = Json.fromJson(type, txt);
+			return rdata;
+		}
+	}
+
+	/**
+	 * 网络获取数据
+	 * 
+	 * @param path
+	 * @param data
+	 * @param type
+	 * @return
+	 * @throws Exception
+	 */
+	protected final String post(String path, String data) throws Exception {
+		String server = apiBase + path;
+
+		URL httpurl = null;
+		try {
+			httpurl = new URL(server);
+		} catch (MalformedURLException e1) {
+			throw new Exception(e1.getMessage());
+		}
+		// System.out.println(server);
+		String txt = "";
+		try {
+			HttpURLConnection connection = (HttpURLConnection) httpurl
+					.openConnection();
+			connection.setConnectTimeout(10 * 1000);
+			connection.setReadTimeout(20 * 1000);
+			connection.setRequestMethod("POST");// 提交模式
+			connection.setDoOutput(true);// 是否输入参数
+			connection.setUseCaches(false); // 获得服务器最新的信息
+			// connection.setAllowUserInteraction(false);
+
+			OutputStream out1 = connection.getOutputStream();
+			out1.write(data.getBytes("UTF-8"));
+			out1.flush();
+
+			InputStream inStream = connection.getInputStream();
+
+			ByteArrayOutputStream out = new ByteArrayOutputStream();
+			int count = 0;
+			byte[] bytes = new byte[1024];
+			count = inStream.read(bytes);
+			while (count > 0) {
+				out.write(bytes, 0, count);
+				count = inStream.read(bytes);
+			}
+
+			txt = new String(out.toByteArray());
+
+			// System.out.println(txt);
+		} catch (IOException e) {
+			e.printStackTrace();
+			String msg = e.getMessage();
+			if (msg == null) {
+				throw new IOException("未知的服务器错误");
+			} else if (e.getMessage().contains("failed to connect")) {
+				throw new IOException("连接服务器超时了,请再试一次");
+			} else {
+				throw e;
+			}
+		}
+		return txt;
+	}
+	
+	${apis}
+}

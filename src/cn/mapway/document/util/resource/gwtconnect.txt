@@ -1,0 +1,155 @@
+
+package ${package};
+
+import com.google.gwt.core.client.*;
+import com.google.gwt.http.client.Request;
+import com.google.gwt.http.client.RequestBuilder;
+import com.google.gwt.http.client.RequestCallback;
+import com.google.gwt.http.client.RequestException;
+import com.google.gwt.http.client.Response;
+import com.google.gwt.http.client.URL;
+import com.google.gwt.json.client.JSONObject;
+import com.google.gwt.json.client.JSONParser;
+import com.google.gwt.json.client.JSONValue;
+import com.google.gwt.user.client.Window;
+import com.navinfo.gwt.common.client.util.Jsons;
+
+${importModules}
+
+/**
+ * @author zhangjianshe@navinfo.com
+ * 
+ */
+public class ${name} {
+
+	public static String BASEPATH = "${basepath}";
+
+	${modules}
+	
+
+	
+	public static <T extends JavaScriptObject> void doGet(String url,
+			String data, final IServerCallback<T> handler) {
+		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET,
+				URL.encode(BASEPATH+url));
+		try {
+			Request request = builder.sendRequest(data, new RequestCallback() {
+				public void onError(Request request, Throwable exception) {
+					handler.onError(exception.getMessage());
+				}
+
+				public void onResponseReceived(Request request,
+						Response response) {
+					if (200 == response.getStatusCode()) {
+						T obj = JsonUtils.safeEval(response.getText());
+						handler.onSuccess(obj);
+					} else {
+						handler.onError(response.getStatusText());
+					}
+				}
+			});
+		} catch (RequestException e) {
+			handler.onError(e.getMessage());
+		}
+	}
+
+	public static void postJson(String url, String data,
+			final IServerCallback<JSONObject> handler) {
+		RequestBuilder builder = new RequestBuilder(RequestBuilder.POST,
+				URL.encode(BASEPATH+url));
+		try {
+			Request request = builder.sendRequest(data, new RequestCallback() {
+				public void onError(Request request, Throwable exception) {
+					handler.onError(exception.getMessage());
+				}
+
+				public void onResponseReceived(Request request,
+						Response response) {
+					if (200 == response.getStatusCode()) {
+						JSONValue obj = JSONParser.parse(response.getText());
+						handler.onSuccess(obj.isObject());
+					} else {
+						handler.onError(response.getStatusText());
+					}
+				}
+			});
+		} catch (RequestException e) {
+			handler.onError(e.getMessage());
+		}
+	}
+
+	public static <T extends JavaScriptObject> void doPost(String url,
+			String data, final IServerCallback<T> handler) {
+		RequestBuilder builder = new RequestBuilder(RequestBuilder.POST,
+				URL.encode(BASEPATH+url));
+		try {
+			Request request = builder.sendRequest(data, new RequestCallback() {
+				public void onError(Request request, Throwable exception) {
+					handler.onError(exception.getMessage());
+				}
+
+				public void onResponseReceived(Request request,
+						Response response) {
+					if (200 == response.getStatusCode()) {
+						T obj = JsonUtils.unsafeEval(response.getText());
+						handler.onSuccess(obj);
+					} else {
+						handler.onError(response.getStatusText());
+					}
+				}
+			});
+		} catch (RequestException e) {
+			handler.onError(e.getMessage());
+		}
+	}
+	
+	
+	public static void doGetString(String url, String data,
+			final IServerCallback<String> handler) {
+		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET,
+				URL.encode(BASEPATH + url));
+		try {
+			Request request = builder.sendRequest(data, new RequestCallback() {
+				public void onError(Request request, Throwable exception) {
+					handler.onError(exception.getMessage());
+				}
+
+				public void onResponseReceived(Request request,
+						Response response) {
+					if (200 == response.getStatusCode()) {
+						handler.onSuccess(response.getText());
+					} else {
+						handler.onError(response.getStatusText());
+					}
+				}
+			});
+		} catch (RequestException e) {
+			handler.onError(e.getMessage());
+		}
+	}
+	public static void doPostString(String url, String data,
+			final IServerCallback<String> handler) {
+		RequestBuilder builder = new RequestBuilder(RequestBuilder.POST,
+				URL.encode(BASEPATH + url));
+		try {
+			Request request = builder.sendRequest(data, new RequestCallback() {
+				public void onError(Request request, Throwable exception) {
+					handler.onError(exception.getMessage());
+				}
+
+				public void onResponseReceived(Request request,
+						Response response) {
+					if (200 == response.getStatusCode()) {
+						handler.onSuccess(response.getText());
+					} else {
+						handler.onError(response.getStatusText());
+					}
+				}
+			});
+		} catch (RequestException e) {
+			handler.onError(e.getMessage());
+		}
+	}
+	
+	${apis}
+}
