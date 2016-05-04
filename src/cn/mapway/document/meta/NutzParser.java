@@ -21,7 +21,7 @@ import java.util.List;
 import org.nutz.mvc.annotation.At;
 import org.nutz.mvc.annotation.POST;
 
-import cn.mapway.document.annotation.Summary;
+import cn.mapway.document.annotation.Doc;
 import cn.mapway.document.meta.module.ApiDocument;
 import cn.mapway.document.meta.module.ApiEntry;
 import cn.mapway.document.meta.module.ParameterInfo;
@@ -51,9 +51,9 @@ public class NutzParser extends DocAnotationBase {
 			}
 		}
 
-		Summary summary = c.getAnnotation(Summary.class);
+		Doc summary = c.getAnnotation(Doc.class);
 		if (summary != null) {
-			api.title = summary.value();
+			api.title = summary.title();
 			api.author = summary.author();
 
 		}
@@ -113,9 +113,9 @@ public class NutzParser extends DocAnotationBase {
 		}
 		e.name = m.getName();
 		
-		Summary summary = m.getAnnotation(Summary.class);
+		Doc summary = m.getAnnotation(Doc.class);
 		if (summary != null) {
-			e.title = summary.value();
+			e.title = summary.title();
 		}
 
 		POST post = m.getAnnotation(POST.class);

@@ -15,7 +15,7 @@ package cn.mapway.document.meta;
 import java.lang.reflect.Field;
 
 import cn.mapway.document.annotation.ApiField;
-import cn.mapway.document.annotation.Summary;
+import cn.mapway.document.annotation.Doc;
 import cn.mapway.document.meta.module.FieldInfo;
 import cn.mapway.document.meta.module.ParameterInfo;
 
@@ -48,9 +48,9 @@ public class DocAnotationBase {
 	 */
 	public static ParameterInfo handleParameter(Class<?> clz) {
 		ParameterInfo p = new ParameterInfo();
-		Summary summary = clz.getAnnotation(Summary.class);
+		Doc summary = clz.getAnnotation(Doc.class);
 		p.name = clz.getName();
-		p.summary = summary == null ? "" : summary.value();
+		p.summary = summary == null ? "" : summary.desc();
 		p.clz = clz;
 		for (Field f : clz.getFields()) {
 			FieldInfo fld = handleField(f);

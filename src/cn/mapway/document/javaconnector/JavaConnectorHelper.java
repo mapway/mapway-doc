@@ -20,8 +20,6 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.stereotype.Controller;
-
 import cn.mapway.document.annotation.ApiField;
 import cn.mapway.document.gen.GenClassInfo;
 import cn.mapway.document.meta.DocAnotationBase;
