@@ -34,6 +34,10 @@ public class ParameterInfo {
 	/**
 	 * 参数说明
 	 */
+	public String title;
+	/**
+	 * 参数详细说明
+	 */
 	public String summary;
 
 	/**

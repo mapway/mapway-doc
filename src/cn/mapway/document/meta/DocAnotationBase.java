@@ -49,9 +49,25 @@ public class DocAnotationBase {
 	public static ParameterInfo handleParameter(Class<?> clz) {
 		ParameterInfo p = new ParameterInfo();
 		Doc summary = clz.getAnnotation(Doc.class);
+
 		p.name = clz.getName();
-		p.summary = summary == null ? "" : summary.desc();
+		p.title = summary == null ? "" : summary.value();
+
+		String sum = "";
+		// 循环处理父类中的解释
+		Class<?> superclazz = clz.getSuperclass();
+		while (superclazz != null) {
+			Doc summary1 = superclazz.getAnnotation(Doc.class);
+			if (sum.length() > 0) {
+				sum += "<br/>";
+			}
+			sum += summary1 == null ? "" : summary1.desc();
+			superclazz = superclazz.getSuperclass();
+		}
+
+		p.summary = sum + (summary == null ? "" : summary.desc());
 		p.clz = clz;
+
 		for (Field f : clz.getFields()) {
 			FieldInfo fld = handleField(f);
 			if (fld != null) {

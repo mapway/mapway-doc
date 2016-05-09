@@ -12,6 +12,9 @@
  *******************************************************************************/
 package cn.mapway.document.meta;
 
+import cn.mapway.document.gen.module.GenContext;
+import cn.mapway.document.meta.module.ApiDocument;
+
 /**
  * 在线文档生成接口
  * 
@@ -19,6 +22,9 @@ package cn.mapway.document.meta;
  * 
  */
 public interface ILiveGen {
+
+	public ApiDocument parsePackage(String packageName, GenContext context);
+
 	/**
 	 * 生成文档页
 	 * 
@@ -28,7 +34,7 @@ public interface ILiveGen {
 	 *            接口访问的基地址
 	 * @return
 	 */
-	public String genDocument(Class<?> clazz, String basepath);
+	public String genDocument(Class<?> clazz, GenContext context);
 
 	/**
 	 * 生成Javascript访问
@@ -63,7 +69,8 @@ public interface ILiveGen {
 	 *            生成代码包路径
 	 * @return
 	 */
-	public String genGwtRpc(Class<?> c,String basepath, String srcpath, String packagename);
+	public String genGwtRpc(Class<?> c, String basepath, String srcpath,
+			String packagename);
 
 	/**
 	 * 生成Java访问代码
@@ -73,6 +80,6 @@ public interface ILiveGen {
 	 * @param packagename
 	 * @return
 	 */
-	public String genJavaConnector(Class<?> clazz,String basepath, String srcpath,
-			String packagename);
+	public String genJavaConnector(Class<?> clazz, String basepath,
+			String srcpath, String packagename);
 }

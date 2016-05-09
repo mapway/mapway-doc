@@ -12,10 +12,15 @@
  *******************************************************************************/
 package cn.mapway.document.gen;
 
+import java.lang.reflect.GenericDeclaration;
+import java.util.Properties;
+
 import org.nutz.ioc.loader.annotation.IocBean;
 import org.nutz.json.Json;
 
+import cn.mapway.document.gen.module.GenContext;
 import cn.mapway.document.meta.ILiveGen;
+import cn.mapway.document.meta.module.ApiDocument;
 import cn.mapway.document.meta.module.WebData;
 
 /**
@@ -25,18 +30,18 @@ import cn.mapway.document.meta.module.WebData;
  * 
  */
 public class ApiGenerator implements ILiveGen {
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see cn.mapway.document.meta.ILiveGen#genDocument(java.lang.Class,
-	 * java.lang.String)
+	
+	
+	
+	/**
+	 * config  : web > www.mapway.cn
 	 */
 	@Override
-	public String genDocument(Class<?> clazz, String basepath) {
+	public String genDocument(Class<?> clazz,GenContext config) {
 		if (clazz != null) {
 			 if (clazz.getAnnotation(IocBean.class) != null) {
 				NutzMvcGenerator g = new NutzMvcGenerator();
-				return g.genDocument(clazz, basepath);
+				return g.genDocument(clazz,config);
 			} else {
 				WebData d = new WebData();
 				d.success = false;
@@ -156,6 +161,12 @@ public class ApiGenerator implements ILiveGen {
 			d.message = "你提供了空的类信息";
 			return Json.toJson(d);
 		}
+	}
+
+	@Override
+	public ApiDocument parsePackage(String packageName, GenContext context) {
+		NutzMvcGenerator g=new NutzMvcGenerator();
+		return g.parsePackage(packageName, context);
 	}
 
 }

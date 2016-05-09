@@ -12,7 +12,11 @@
  *******************************************************************************/
 package cn.mapway.document.meta.module;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
+
+import org.nutz.json.Json;
 
 /**
  * Api文档结构
@@ -42,7 +46,69 @@ public class ApiDocument {
 	public String basePath = "";
 
 	/**
-	 * 入口方法
+	 * API根节点
 	 */
-	public ArrayList<ApiEntry> entries = new ArrayList<ApiEntry>();
+	public ApiGroup root;
+
+	public ApiDocument() {
+		root = new ApiGroup();
+		root.name = "/";
+		root.summary = "分组根节点";
+	}
+
+	/**
+	 * 根据路径查找ApiGroup,如果不存在这个路径的对象，就在树中创建这个路径
+	 * 
+	 * @param path
+	 * @return
+	 */
+	public ApiGroup findGroup(String path) {
+
+		if (path == null || path.length() == 0 || path.equals("/")) {
+			return root;
+		}
+
+		String[] paths = path.split("/");
+		if (paths.length > 0) {
+			String p = paths[0];
+			if (p.length() == 0) {
+				paths = Arrays.copyOfRange(paths, 1, paths.length);
+			}
+		}
+		ApiGroup g = root;
+
+		for (int i = 0; i < paths.length; i++) {
+			String p = paths[i];
+
+			boolean find = false;
+			for (ApiGroup sg : g.subGroup) {
+				if (sg.name.equals(p)) {// 找到节点
+
+					g = sg;
+					find = true;
+				}
+
+			}
+
+			if (find == false) {
+				// 没有找到节点 创建节点，并添加到节点树
+				ApiGroup ng = new ApiGroup();
+				ng.name = p;
+				g.subGroup.add(ng);
+				g = ng;
+			}
+		}
+
+		return g;
+	}
+
+	public static void main(String[] args) {
+
+		String path = "/ABC/DEF";
+		ApiDocument d = new ApiDocument();
+		ApiGroup g = d.findGroup(path);
+		g = d.findGroup("ABC/White");
+		System.out.println(Json.toJson(d.root));
+	}
+
 }

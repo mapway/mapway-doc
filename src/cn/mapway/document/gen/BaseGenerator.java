@@ -13,6 +13,7 @@
 package cn.mapway.document.gen;
 
 import cn.mapway.document.doc.ApiDocumentHelper;
+import cn.mapway.document.gen.module.GenContext;
 import cn.mapway.document.gwtprc.GwtRpcHelper;
 import cn.mapway.document.javaconnector.JavaConnectorHelper;
 import cn.mapway.document.javascript.JavascriptHelper;
@@ -32,24 +33,25 @@ public abstract class BaseGenerator implements ILiveGen {
 	 * @param basepath
 	 * @return
 	 */
-	public abstract ApiDocument toApiDocument(Class<?> clazz, String basepath);
+	public abstract ApiDocument toApiDocument(Class<?> clazz, GenContext context);
 
-	public String genDocument(Class<?> c, String basepath) {
-		ApiDocument api = toApiDocument(c, basepath);
+	public String genDocument(Class<?> c, GenContext config) {
+		ApiDocument api = toApiDocument(c, config);
 		ApiDocumentHelper helper = new ApiDocumentHelper();
-		String body = helper.gendoc(api, basepath);
+		String body = helper.gendoc(api,config);
 		return body;
 	}
 
-	public String genJavascript(Class<?> c, String basepath) {
-		ApiDocument api = toApiDocument(c, basepath);
+	public String genJavascript(Class<?> c,  String basepath) {
+		
+		ApiDocument api = toApiDocument(c,  new GenContext());
 		JavascriptHelper helper = new JavascriptHelper();
 		String body = helper.toJavascript(api, basepath);
 		return body;
 	}
 
 	public String genTestPage(Class<?> c, String basepath) {
-		ApiDocument api = toApiDocument(c, basepath);
+		ApiDocument api = toApiDocument(c, new GenContext());
 		TestPageHelper helper = new TestPageHelper();
 		String jscode = genJavascript(c, basepath);
 		String body = helper.toTestPage(api, basepath, jscode);
@@ -58,7 +60,8 @@ public abstract class BaseGenerator implements ILiveGen {
 
 	public String genGwtRpc(Class<?> c, String basepath, String srcpath,
 			String packagename) {
-		ApiDocument api = toApiDocument(c, "");
+		GenContext context=new GenContext();
+		ApiDocument api = toApiDocument(c, context);
 		GwtRpcHelper helper = new GwtRpcHelper();
 		String body = helper.toSource(api, basepath, srcpath, packagename);
 		return body;
@@ -73,7 +76,8 @@ public abstract class BaseGenerator implements ILiveGen {
 	@Override
 	public String genJavaConnector(Class<?> clazz, String basepath,
 			String srcpath, String packagename) {
-		ApiDocument api = toApiDocument(clazz, "");
+		GenContext context=new GenContext();
+		ApiDocument api = toApiDocument(clazz,context );
 		JavaConnectorHelper helper = new JavaConnectorHelper();
 		String body = helper.toSource(api, basepath, srcpath, packagename);
 		return body;

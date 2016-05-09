@@ -29,7 +29,7 @@ public class ApiEntry {
 	/**
 	 * 接口说明
 	 */
-	public String title = "";
+	public String summary = "";
 	/**
 	 * 接口相对路径
 	 */

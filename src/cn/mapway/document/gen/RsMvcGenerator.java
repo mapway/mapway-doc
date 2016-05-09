@@ -12,6 +12,7 @@
  *******************************************************************************/
 package cn.mapway.document.gen;
 
+import cn.mapway.document.gen.module.GenContext;
 import cn.mapway.document.meta.RsParser;
 import cn.mapway.document.meta.module.ApiDocument;
 
@@ -30,10 +31,16 @@ class RsMvcGenerator  extends BaseGenerator {
 	 * @param basepath
 	 * @return
 	 */
-	public ApiDocument toApiDocument(Class<?> c, String basepath) {
+	public ApiDocument toApiDocument(Class<?> c, GenContext context) {
 		RsParser parser = new RsParser();
 		ApiDocument api = parser.toApiDocument(c);
 		return api;
+	}
+
+	@Override
+	public ApiDocument parsePackage(String packageName, GenContext context) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	

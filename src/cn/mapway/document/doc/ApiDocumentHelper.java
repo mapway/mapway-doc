@@ -20,11 +20,16 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.nutz.json.Json;
+import org.nutz.lang.Times;
+
 import cn.mapway.document.annotation.ApiField;
 import cn.mapway.document.gen.GenClassInfo;
+import cn.mapway.document.gen.module.GenContext;
 import cn.mapway.document.meta.DocAnotationBase;
 import cn.mapway.document.meta.module.ApiDocument;
 import cn.mapway.document.meta.module.ApiEntry;
+import cn.mapway.document.meta.module.ApiGroup;
 import cn.mapway.document.meta.module.FieldInfo;
 import cn.mapway.document.meta.module.ParameterInfo;
 import cn.mapway.document.util.Template;
@@ -60,20 +65,28 @@ public class ApiDocumentHelper extends DocAnotationBase {
 	 * @param api
 	 * @return
 	 */
-	public String gendoc(ApiDocument api, String basepath) {
+	public String gendoc(ApiDocument api, GenContext context) {
+
+		if (context.getDocTitle() != null && context.getDocTitle().length() > 0) {
+			api.title = context.getDocTitle();
+		}
+		if (context.getAuthor() != null && context.getAuthor().length() > 0) {
+			api.author = context.getAuthor();
+		}
 
 		StringBuilder sb = new StringBuilder();
 		StringBuilder catalog = new StringBuilder();
-		catalog.append("<ol >");
+		// Catalog is tree
+		catalog.append("<div>");
 		sb.append("");
-
 		String author = api.author;
 
-		for (int i = 0; i < api.entries.size(); i++) {
-			ApiEntry e = api.entries.get(i);
-			documentEntry(sb, catalog, api, e, basepath);
+		int indent = 1;
+		for (ApiGroup g : api.root.subGroup) {
+			handlerGroup(indent, g, catalog,sb);
 		}
-		catalog.append("</ol>");
+
+		catalog.append("</div>");
 
 		// output field type
 		StringBuilder sb1 = new StringBuilder();
@@ -93,7 +106,8 @@ public class ApiDocumentHelper extends DocAnotationBase {
 						+ info.cls.clz.getSimpleName() + "'></a>");
 
 				sb1.append("<div class='m_title'>" + info.cls.clz.getName()
-						+ "</div>");
+						+ "<div class='m_subtitle'>" + info.cls.summary
+						+ "</div>" + "</div>");
 				sb1.append(descriptObject(info.cls));
 				sb1.append("</div>");
 				info.gen = true;
@@ -123,11 +137,81 @@ public class ApiDocumentHelper extends DocAnotationBase {
 
 		template = template.replaceAll("\\$\\{page_content\\}", sb.toString());
 
-		template = template
-				.replaceAll("\\$\\{page_footer\\}",
-						"&copy;2014-2015 www.navinfo.com&nbsp;&nbsp;&nbsp;联系:"
-								+ author);
+		template = template.replaceAll(
+				"\\$\\{page_footer\\}",
+				"&copy;" + (Times.now().getYear() + 1900) + "&nbsp; "
+						+ context.getDomain() + " &nbsp;&nbsp;&nbsp;联系:"
+						+ author);
 		return template;
+	}
+
+	private void handlerEntry(int indent, ApiEntry e, StringBuilder catalog,StringBuilder sb) {
+		
+		String id = e.relativePath.replace("/", "");
+
+		
+		String cls = "entry" ;
+		catalog.append("<li class='" + cls + "'>");
+		catalog.append("<a  href='#" + id +"'>");
+		catalog.append(e.name);
+		catalog.append("</a></li>");
+		
+
+		sb.append("<a class='bookmark' style='height:60px;display:block;' id='"
+				+ id + "'></a>");
+		sb.append("<div class='m_block'><table width='100%' cellpadding='5px'>");
+		sb.append("<tr><td colspan='2' class='m_title' >" + e.name
+				+ "<div class='m_subtitle'>" + e.summary + "</div>"
+				+ "</td></tr>");
+
+		sb.append("<tr><td colspan='2' class='m_path' ><a href='" + e.relativePath
+				+ e.relativePath + "' target='_blank'>" + e.relativePath
+				+ "</a></td></tr>");
+
+		sb.append("<tr><td colspan='2' >调用方法:" + e.invokeMethod + "</td></tr>");
+		sb.append("</table>");
+
+		StringBuilder inputstbl = new StringBuilder();
+		for (ParameterInfo i : e.input) {
+
+			inputstbl.append("<div class='objdesc'>传入参数：" + i.title + "</div>");
+
+			inputstbl.append(descriptObject(i));
+		}
+
+		sb.append(inputstbl.toString());
+		sb.append("<div class='objdesc'>传出参数：" + e.output.title + "</div>");
+		sb.append(descriptObject(e.output));
+		sb.append("</div>");
+
+	}
+
+	private void handlerGroup(int indent, ApiGroup g, StringBuilder catalog,StringBuilder detail) {
+		
+		String cls = "tree" + (indent++);
+		
+		
+		catalog.append("<div subgroup='"+g.subGroup.size()+"'  class='" + cls + "'>");
+		catalog.append("<div onclick='treeclick()'>");
+		catalog.append(g.name);
+		catalog.append("</div>");
+		// handler subgroup
+		for (ApiGroup subg : g.subGroup) {
+			handlerGroup(indent, subg, catalog,detail);
+		}
+		
+		// handle entry
+		
+		if(g.entries.size()>0)
+		{
+			catalog.append("<ol>");
+			for (ApiEntry e : g.entries) {
+				handlerEntry(indent, e,catalog,detail);
+			}
+			catalog.append("</ol>");
+		}
+		
+		catalog.append("</div>");
 	}
 
 	/**
@@ -142,13 +226,14 @@ public class ApiDocumentHelper extends DocAnotationBase {
 
 		String id = e.relativePath.replace("/", "");
 
-		catalog.append("<li >" + "<a  href='#" + id + "'>" + e.title
+		catalog.append("<li >" + "<a  href='#" + id + "'>" + e.name
 				+ "</a><br/>" + e.relativePath + "</li>");
 
 		sb.append("<a class='bookmark' style='height:60px;display:block;' id='"
 				+ id + "'></a>");
 		sb.append("<div class='m_block'><table width='100%' cellpadding='5px'>");
-		sb.append("<tr><td colspan='2' class='m_title' >" + e.title
+		sb.append("<tr><td colspan='2' class='m_title' >" + e.name
+				+ "<div class='m_subtitle'>" + e.summary + "</div>"
 				+ "</td></tr>");
 
 		sb.append("<tr><td colspan='2' class='m_path' ><a href='" + basepath
@@ -160,17 +245,14 @@ public class ApiDocumentHelper extends DocAnotationBase {
 
 		StringBuilder inputstbl = new StringBuilder();
 		for (ParameterInfo i : e.input) {
-			inputstbl.append("<div class='objdesc'>传入参数：" + i.summary + "("
-					+ i.name + ")</div>");
+
+			inputstbl.append("<div class='objdesc'>传入参数：" + i.title + "</div>");
 
 			inputstbl.append(descriptObject(i));
 		}
 
 		sb.append(inputstbl.toString());
-
-		sb.append("<div class='objdesc'>传出参数：" + e.output.summary + "("
-				+ e.output.name + ")</div>");
-
+		sb.append("<div class='objdesc'>传出参数：" + e.output.title + "</div>");
 		sb.append(descriptObject(e.output));
 		sb.append("</div>");
 
@@ -186,8 +268,8 @@ public class ApiDocumentHelper extends DocAnotationBase {
 		StringBuilder sb = new StringBuilder();
 
 		sb.append("<table width='100%' border='1' class='tbl_param' cellpadding='5px'>");
-		sb.append("<tr><td class='tbltitle' colspan=\"4\">" + info.summary
-				+ "</td></tr>");
+		sb.append("<tr><td class='m_subtitle' colspan=\"4\">" + info.summary
+				+ "&nbsp;</td></tr>");
 		sb.append("<tr class='tbheader'><th>名称</th><th>类型</th><th>选项</th><th>解释</th></tr>");
 		for (FieldInfo fi : info.flds) {
 			Field f = fi.fld;

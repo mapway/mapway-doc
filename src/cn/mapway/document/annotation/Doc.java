@@ -34,7 +34,7 @@ public @interface Doc {
 	 * 
 	 * @return
 	 */
-	public String title();
+	public String value();
 
 	/**
 	 * 描述信息
@@ -48,5 +48,13 @@ public @interface Doc {
 	 * 
 	 * @return
 	 */
-	public String author() default "zhangjianshe@mapway.cn";
+	public String author() default "zhangjianshe@gmail.com";
+	
+	/**
+	 * 接口分组信息 ,以 /为分隔符 进行树形分组，缺省归属为根节点
+	 * @return
+	 */
+	public String group() default "/";
+	
+	
 }

@@ -81,10 +81,10 @@ public class GwtRpcHelper extends DocAnotationBase {
 		StringBuilder apis = new StringBuilder();
 		StringBuilder modules = new StringBuilder();
 
-		for (int i = 0; i < api.entries.size(); i++) {
-			ApiEntry e = api.entries.get(i);
-			codeEntry(imports, apis, e);
-		}
+//		for (int i = 0; i < api.entries.size(); i++) {
+//			ApiEntry e = api.entries.get(i);
+//			codeEntry(imports, apis, e);
+//		}
 
 		genModules(modules);
 
@@ -285,7 +285,7 @@ public class GwtRpcHelper extends DocAnotationBase {
 		}
 
 		method.append("\t/**\r\n");
-		method.append("\t * " + e.title + "\r\n");
+		method.append("\t * " + e.name + "\r\n");
 		method.append("\t *\r\n");
 		method.append("\t * @param req 请求数据包\r\n");
 		method.append("\t * @param 返回数据包\r\n");

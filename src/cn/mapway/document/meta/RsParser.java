@@ -102,7 +102,8 @@ public class RsParser extends DocAnotationBase {
 
 		Doc summary = m.getAnnotation(Doc.class);
 		if (summary != null) {
-			e.title = summary.title();
+			e.name = summary.value();
+			e.summary = summary.desc();
 		}
 
 		POST post = m.getAnnotation(POST.class);

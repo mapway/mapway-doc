@@ -38,22 +38,22 @@ public class JavascriptHelper {
 		}
 
 		StringBuilder sb = new StringBuilder();
-		for (ApiEntry e : api.entries) {
-			sb.append("/*\r\n");
-			sb.append(" *" + e.title + "\r\n");
-			sb.append("*/\r\n");
-			sb.append(api.clsName + ".prototype." + e.name
-					+ "=function(data,ondata,onerror){\r\n");
-			if (e.invokeMethod.contains("GET")) {
-				sb.append("\t return this.http_get(this.basepath+'"
-						+ api.basePath + e.relativePath
-						+ "',data,ondata,onerror);\r\n");
-			} else if (e.invokeMethod.contains("POST")) {
-				sb.append("\t return this.http_post(this.basepath+'"
-						+ e.relativePath + "',data,ondata,onerror);\r\n");
-			}
-			sb.append("}\r\n");
-		}
+//		for (ApiEntry e : api.entries) {
+//			sb.append("/*\r\n");
+//			sb.append(" *" + e.name + "\r\n");
+//			sb.append("*/\r\n");
+//			sb.append(api.clsName + ".prototype." + e.name
+//					+ "=function(data,ondata,onerror){\r\n");
+//			if (e.invokeMethod.contains("GET")) {
+//				sb.append("\t return this.http_get(this.basepath+'"
+//						+ api.basePath + e.relativePath
+//						+ "',data,ondata,onerror);\r\n");
+//			} else if (e.invokeMethod.contains("POST")) {
+//				sb.append("\t return this.http_post(this.basepath+'"
+//						+ e.relativePath + "',data,ondata,onerror);\r\n");
+//			}
+//			sb.append("}\r\n");
+//		}
 
 		// System.out.println(sb.toString());
 
