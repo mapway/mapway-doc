@@ -76,8 +76,8 @@ public class ApiDocumentHelper extends DocAnotationBase {
 
 		StringBuilder sb = new StringBuilder();
 		StringBuilder catalog = new StringBuilder();
-		StringBuilder apiIndex=new StringBuilder();
-		
+		StringBuilder apiIndex = new StringBuilder();
+
 		// Catalog is tree
 		catalog.append("<div>");
 		sb.append("");
@@ -85,10 +85,9 @@ public class ApiDocumentHelper extends DocAnotationBase {
 
 		int indent = 1;
 		for (ApiGroup g : api.root.getChildGroups()) {
-			handlerGroup(indent, g, catalog,sb,apiIndex);
+			handlerGroup(indent, g, catalog, sb, apiIndex);
 		}
 		catalog.append("</div>");
-		
 
 		// output field type
 		StringBuilder sb1 = new StringBuilder();
@@ -107,9 +106,8 @@ public class ApiDocumentHelper extends DocAnotationBase {
 				sb1.append("<a class='bookmark' style='height:60px;display:block;' id='cls_"
 						+ info.cls.clz.getSimpleName() + "'></a>");
 
-				sb1.append("<div class='m_title'>" + info.cls.clz.getName()
-						+ "<div class='m_subtitle'>" + info.cls.summary
-						+ "</div>" + "</div>");
+				sb1.append("<div class='m_title'>"
+						+ info.cls.clz.getSimpleName() + "</div>");
 				sb1.append(descriptObject(info.cls));
 				sb1.append("</div>");
 				info.gen = true;
@@ -122,12 +120,9 @@ public class ApiDocumentHelper extends DocAnotationBase {
 			}
 		}
 		sb.append(sb1.toString());
-		
-		
-		//output list
-		sb.append(apiIndex.toString());
 
-		
+		// output list
+		sb.append(apiIndex.toString());
 
 		String template;
 		try {
@@ -152,18 +147,16 @@ public class ApiDocumentHelper extends DocAnotationBase {
 		return template;
 	}
 
-	private void handlerEntry(int indent, ApiEntry e, StringBuilder catalog,StringBuilder sb) {
-		
+	private void handlerEntry(int indent, ApiEntry e, StringBuilder catalog,
+			StringBuilder sb) {
+
 		String id = e.relativePath.replace("/", "");
 
-		
-		String cls = "entry" ;
+		String cls = "entry";
 		catalog.append("<li class='" + cls + "'>");
-		catalog.append("<a  href='#" + id +"'>");
+		catalog.append("<a  href='#" + id + "'>");
 		catalog.append(e.name);
 		catalog.append("</a></li>");
-		
-		
 
 		sb.append("<a class='bookmark' style='height:60px;display:block;' id='"
 				+ id + "'></a>");
@@ -172,9 +165,9 @@ public class ApiDocumentHelper extends DocAnotationBase {
 				+ "<div class='m_subtitle'>" + e.summary + "</div>"
 				+ "</td></tr>");
 
-		sb.append("<tr><td colspan='2' class='m_path' ><a href='" + e.relativePath
-				+ e.relativePath + "' target='_blank'>" + e.relativePath
-				+ "</a></td></tr>");
+		sb.append("<tr><td colspan='2' class='m_path' ><a href='"
+				+ e.relativePath + e.relativePath + "' target='_blank'>"
+				+ e.relativePath + "</a></td></tr>");
 
 		sb.append("<tr><td colspan='2' >调用方法:" + e.invokeMethod + "</td></tr>");
 		sb.append("</table>");
@@ -194,59 +187,56 @@ public class ApiDocumentHelper extends DocAnotationBase {
 
 	}
 
-	private void handlerGroup(int indent, ApiGroup g, StringBuilder catalog,StringBuilder detail,StringBuilder apiIndex) {
-		
-		String cls = "tree" + (indent++);
-		
-		
-		catalog.append("<div subgroup='"+g.getChildGroups().size()+"'  class='" + cls + "'>");
-		String path=g.getPath();
-		path=path.replace("/", "_");
+	private void handlerGroup(int indent, ApiGroup g, StringBuilder catalog,
+			StringBuilder detail, StringBuilder apiIndex) {
 
-		String groupName="group"+path;
-		
-		catalog.append("<div><a href='#"+groupName+"'>");
+		String cls = "tree" + (indent++);
+
+		catalog.append("<div subgroup='" + g.getChildGroups().size()
+				+ "'  class='" + cls + "'>");
+		String path = g.getPath();
+		path = path.replace("/", "_");
+
+		String groupName = "group" + path;
+
+		catalog.append("<div><a href='#" + groupName + "'>");
 		catalog.append(g.name);
 		catalog.append("</a></div>");
-		
-		
-		
-		apiIndex.append("<a name='"+groupName+"'></a>");
-		apiIndex.append("<div class='indexGroup'>"+g.getPath()+"/"+g.name+"</div>");
-		
-		if(g.entries.size()>0)
-		{
+
+		apiIndex.append("<a name='" + groupName + "'></a>");
+		apiIndex.append("<div class='indexGroup'>" + g.getPath() + "/" + g.name
+				+ "</div>");
+
+		if (g.entries.size() > 0) {
 			apiIndex.append("<table width='100%' class='indexTable'>");
-			int index=1;
+			int index = 1;
 			for (ApiEntry e : g.entries) {
 				apiIndex.append("<tr>");
-					apiIndex.append("<td width='50px' align='right'>"+(index++)+"</td>");
-					apiIndex.append("<td width='250px'>"+e.name+"</td>");
-					apiIndex.append("<td>"+e.relativePath+"</td>");
+				apiIndex.append("<td width='50px' align='right'>" + (index++)
+						+ "</td>");
+				apiIndex.append("<td width='250px'>" + e.name + "</td>");
+				apiIndex.append("<td>" + e.relativePath + "</td>");
 				apiIndex.append("</tr>");
 			}
 			apiIndex.append("</table>");
 		}
-		
+
 		// handler subgroup
 		for (ApiGroup subg : g.getChildGroups()) {
-			handlerGroup(indent, subg, catalog,detail,apiIndex);
+			handlerGroup(indent, subg, catalog, detail, apiIndex);
 		}
-		
+
 		// handle entry
-		
-		if(g.entries.size()>0)
-		{
+
+		if (g.entries.size() > 0) {
 			catalog.append("<ol>");
 			for (ApiEntry e : g.entries) {
-				handlerEntry(indent, e,catalog,detail);
+				handlerEntry(indent, e, catalog, detail);
 			}
 			catalog.append("</ol>");
 		}
 		catalog.append("</div>");
 	}
-
-	
 
 	/**
 	 * 描述对象信息
@@ -258,8 +248,8 @@ public class ApiDocumentHelper extends DocAnotationBase {
 		StringBuilder sb = new StringBuilder();
 
 		sb.append("<table width='100%' border='1' class='tbl_param' cellpadding='5px'>");
-		sb.append("<tr><td class='m_subtitle' colspan=\"5\">" + info.summary
-				+ "&nbsp;</td></tr>");
+		sb.append("<tr><td class='m_subtitle' colspan=\"5\">" + info.title
+				+ "<br/>" + info.summary + "</td></tr>");
 		sb.append("<tr class='tbheader'><th>名称</th><th>类型</th><th>长度</th><th>选项</th><th>解释</th></tr>");
 		for (FieldInfo fi : info.flds) {
 			Field f = fi.fld;
@@ -323,7 +313,8 @@ public class ApiDocumentHelper extends DocAnotationBase {
 							+ f.getType().getSimpleName() + "</a></td>");
 
 				}
-				sb.append("<td width='50px'>"+(wf.length()==0?"":wf.length())+"</td>");
+				sb.append("<td width='50px'>"
+						+ (wf.length() == 0 ? "" : wf.length()) + "</td>");
 				sb.append("<td width='60px'>" + (wf.mandidate() ? "必填" : "可选")
 						+ "</td>");
 				sb.append("<td class='doc'>" + wf.value() + "</td>");
