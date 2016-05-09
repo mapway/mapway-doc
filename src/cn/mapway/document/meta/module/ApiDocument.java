@@ -88,20 +88,18 @@ public class ApiDocument {
 			String p = paths[i];
 
 			boolean find = false;
-			for (ApiGroup sg : g.subGroup) {
+			for (ApiGroup sg : g.getChildGroups()) {
 				if (sg.name.equals(p)) {// 找到节点
-
 					g = sg;
 					find = true;
 				}
-
 			}
 
 			if (find == false) {
 				// 没有找到节点 创建节点，并添加到节点树
 				ApiGroup ng = new ApiGroup();
 				ng.name = p;
-				g.subGroup.add(ng);
+				g.addChildGroup(ng);
 				g = ng;
 			}
 		}

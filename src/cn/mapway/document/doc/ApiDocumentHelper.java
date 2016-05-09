@@ -76,17 +76,19 @@ public class ApiDocumentHelper extends DocAnotationBase {
 
 		StringBuilder sb = new StringBuilder();
 		StringBuilder catalog = new StringBuilder();
+		StringBuilder apiIndex=new StringBuilder();
+		
 		// Catalog is tree
 		catalog.append("<div>");
 		sb.append("");
 		String author = api.author;
 
 		int indent = 1;
-		for (ApiGroup g : api.root.subGroup) {
-			handlerGroup(indent, g, catalog,sb);
+		for (ApiGroup g : api.root.getChildGroups()) {
+			handlerGroup(indent, g, catalog,sb,apiIndex);
 		}
-
 		catalog.append("</div>");
+		
 
 		// output field type
 		StringBuilder sb1 = new StringBuilder();
@@ -119,8 +121,13 @@ public class ApiDocumentHelper extends DocAnotationBase {
 				}
 			}
 		}
-
 		sb.append(sb1.toString());
+		
+		
+		//output list
+		sb.append(apiIndex.toString());
+
+		
 
 		String template;
 		try {
@@ -156,6 +163,7 @@ public class ApiDocumentHelper extends DocAnotationBase {
 		catalog.append(e.name);
 		catalog.append("</a></li>");
 		
+		
 
 		sb.append("<a class='bookmark' style='height:60px;display:block;' id='"
 				+ id + "'></a>");
@@ -186,18 +194,43 @@ public class ApiDocumentHelper extends DocAnotationBase {
 
 	}
 
-	private void handlerGroup(int indent, ApiGroup g, StringBuilder catalog,StringBuilder detail) {
+	private void handlerGroup(int indent, ApiGroup g, StringBuilder catalog,StringBuilder detail,StringBuilder apiIndex) {
 		
 		String cls = "tree" + (indent++);
 		
 		
-		catalog.append("<div subgroup='"+g.subGroup.size()+"'  class='" + cls + "'>");
-		catalog.append("<div onclick='treeclick()'>");
+		catalog.append("<div subgroup='"+g.getChildGroups().size()+"'  class='" + cls + "'>");
+		String path=g.getPath();
+		path=path.replace("/", "_");
+
+		String groupName="group"+path;
+		
+		catalog.append("<div><a href='#"+groupName+"'>");
 		catalog.append(g.name);
-		catalog.append("</div>");
+		catalog.append("</a></div>");
+		
+		
+		
+		apiIndex.append("<a name='"+groupName+"'></a>");
+		apiIndex.append("<div class='indexGroup'>"+g.getPath()+"/"+g.name+"</div>");
+		
+		if(g.entries.size()>0)
+		{
+			apiIndex.append("<table width='100%' class='indexTable'>");
+			int index=1;
+			for (ApiEntry e : g.entries) {
+				apiIndex.append("<tr>");
+					apiIndex.append("<td width='50px' align='right'>"+(index++)+"</td>");
+					apiIndex.append("<td width='250px'>"+e.name+"</td>");
+					apiIndex.append("<td>"+e.relativePath+"</td>");
+				apiIndex.append("</tr>");
+			}
+			apiIndex.append("</table>");
+		}
+		
 		// handler subgroup
-		for (ApiGroup subg : g.subGroup) {
-			handlerGroup(indent, subg, catalog,detail);
+		for (ApiGroup subg : g.getChildGroups()) {
+			handlerGroup(indent, subg, catalog,detail,apiIndex);
 		}
 		
 		// handle entry
@@ -210,53 +243,10 @@ public class ApiDocumentHelper extends DocAnotationBase {
 			}
 			catalog.append("</ol>");
 		}
-		
 		catalog.append("</div>");
 	}
 
-	/**
-	 * @param sb
-	 * @param catalog
-	 * @param api
-	 * @param e
-	 */
-	private void documentEntry(StringBuilder sb, StringBuilder catalog,
-			ApiDocument api, ApiEntry e, String basepath) {
-		String invokepath = api.basePath + e.relativePath;
-
-		String id = e.relativePath.replace("/", "");
-
-		catalog.append("<li >" + "<a  href='#" + id + "'>" + e.name
-				+ "</a><br/>" + e.relativePath + "</li>");
-
-		sb.append("<a class='bookmark' style='height:60px;display:block;' id='"
-				+ id + "'></a>");
-		sb.append("<div class='m_block'><table width='100%' cellpadding='5px'>");
-		sb.append("<tr><td colspan='2' class='m_title' >" + e.name
-				+ "<div class='m_subtitle'>" + e.summary + "</div>"
-				+ "</td></tr>");
-
-		sb.append("<tr><td colspan='2' class='m_path' ><a href='" + basepath
-				+ e.relativePath + "' target='_blank'>" + invokepath
-				+ "</a></td></tr>");
-
-		sb.append("<tr><td colspan='2' >调用方法:" + e.invokeMethod + "</td></tr>");
-		sb.append("</table>");
-
-		StringBuilder inputstbl = new StringBuilder();
-		for (ParameterInfo i : e.input) {
-
-			inputstbl.append("<div class='objdesc'>传入参数：" + i.title + "</div>");
-
-			inputstbl.append(descriptObject(i));
-		}
-
-		sb.append(inputstbl.toString());
-		sb.append("<div class='objdesc'>传出参数：" + e.output.title + "</div>");
-		sb.append(descriptObject(e.output));
-		sb.append("</div>");
-
-	}
+	
 
 	/**
 	 * 描述对象信息
