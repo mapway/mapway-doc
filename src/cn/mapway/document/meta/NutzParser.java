@@ -52,12 +52,13 @@ public class NutzParser extends DocAnotationBase {
 		doc.basePath = context.getBasepath();
 		doc.title = context.getDocTitle();
 
+	
 		for (Class<?> clz : clzs) {
 			if (clz.getAnnotation(Doc.class) != null) {
 				parseClass(doc, clz);
 			}
 		}
-
+		
 		return doc;
 
 	}

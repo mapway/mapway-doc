@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project default="buildSources" basedir=".">
+
+	<property name="dir.source" value="src" />
+	<property name="dir.target" value="target" />
+
+	<property name="dir.lib" value="lib" />
+	<property name="dir.out" value="out" />
+
+	<target name="buildSources">
+		<!--创建临时目录-->
+		<deltree dir="${dir.target}" />
+		<mkdir dir="${dir.target}" />
+
+		<!--清空输出目录-->
+		<deltree dir="${dir.out}" />
+		<mkdir dir="${dir.out}" />
+
+		<!--编译类库目录-->
+		<path id="lib_path">
+			<fileset dir="${dir.lib}">
+				<include name="*.jar" />
+			</fileset>
+		</path>
+
+
+
+		<!--编译源代码到目标目录-->
+		<javac includeAntRuntime="no" encoding="UTF-8" srcdir="${dir.source}" destdir="${dir.target}" verbose="false" fork="no">
+			<classpath refid="lib_path">
+			</classpath>
+		</javac>
+
+		<!--准备打包JAR-->
+		<copy todir="${dir.target}">
+			<fileset dir="${dir.source}">
+				<exclude name="**/*.java" />
+			</fileset>
+		</copy>
+
+		<!--打包代码 输出 JAR -->
+		<jar destfile="${dir.out}\mapway-doc.jar" basedir="${dir.target}">
+
+		</jar>
+
+		<deltree dir="${dir.target}" />
+	</target>
+	<target name="copy2neyun" depends="buildSources">
+		<copy tofile="D:\\新奥集团\\workspace\\neyun\\WebRoot\\WEB-INF\\lib\\mapway-doc.jar" file="${dir.out}\mapway-doc.jar" />
+	</target>
+</project>

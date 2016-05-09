@@ -57,6 +57,13 @@ public class ApiDocument {
 	}
 
 	/**
+	 * 按照字典规则排序 Group和Entry
+	 */
+	public void sort()
+	{
+		root.sort();
+	}
+	/**
 	 * 根据路径查找ApiGroup,如果不存在这个路径的对象，就在树中创建这个路径
 	 * 
 	 * @param path
