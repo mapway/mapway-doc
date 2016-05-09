@@ -90,6 +90,7 @@ public class DocAnotationBase {
 			fi.manditary = wf.mandidate();
 			fi.fld = f;
 			fi.summary = wf.value();
+			fi.length=wf.length();
 			return fi;
 		}
 		return null;

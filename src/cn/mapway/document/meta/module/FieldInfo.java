@@ -35,6 +35,12 @@ public class FieldInfo {
 	 * 是否强制填写
 	 */
 	public boolean manditary = true;
+	
+	
+	/**
+	 * 长度
+	 */
+	public int length;
 
 	
 }

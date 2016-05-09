@@ -115,9 +115,9 @@ public class NutzParser extends DocAnotationBase {
 
 		for (int i = 0; i < list.size(); i++) {
 			Method m = list.get(i);
-			if (m.getName().equals("index")) {
-				continue;
-			}
+//			if (m.getName().equals("index")) {
+//				continue;
+//			}
 			ApiEntry entry = handleMethod(m);
 			if (entry != null) {
 				entry.relativePath=basepath+entry.relativePath;

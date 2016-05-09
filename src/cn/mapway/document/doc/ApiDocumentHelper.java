@@ -258,9 +258,9 @@ public class ApiDocumentHelper extends DocAnotationBase {
 		StringBuilder sb = new StringBuilder();
 
 		sb.append("<table width='100%' border='1' class='tbl_param' cellpadding='5px'>");
-		sb.append("<tr><td class='m_subtitle' colspan=\"4\">" + info.summary
+		sb.append("<tr><td class='m_subtitle' colspan=\"5\">" + info.summary
 				+ "&nbsp;</td></tr>");
-		sb.append("<tr class='tbheader'><th>名称</th><th>类型</th><th>选项</th><th>解释</th></tr>");
+		sb.append("<tr class='tbheader'><th>名称</th><th>类型</th><th>长度</th><th>选项</th><th>解释</th></tr>");
 		for (FieldInfo fi : info.flds) {
 			Field f = fi.fld;
 			ApiField wf = f.getAnnotation(ApiField.class);
@@ -323,6 +323,7 @@ public class ApiDocumentHelper extends DocAnotationBase {
 							+ f.getType().getSimpleName() + "</a></td>");
 
 				}
+				sb.append("<td width='50px'>"+(wf.length()==0?"":wf.length())+"</td>");
 				sb.append("<td width='60px'>" + (wf.mandidate() ? "必填" : "可选")
 						+ "</td>");
 				sb.append("<td class='doc'>" + wf.value() + "</td>");
