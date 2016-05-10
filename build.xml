@@ -7,8 +7,11 @@
 
 	<property name="dir.lib" value="lib" />
 	<property name="dir.out" value="out" />
+	<property name="jarname" value="mapway-doc.jar">
+	</property>
 
 	<target name="buildSources">
+		<tstamp />
 		<!--创建临时目录-->
 		<deltree dir="${dir.target}" />
 		<mkdir dir="${dir.target}" />
@@ -38,10 +41,31 @@
 				<exclude name="**/*.java" />
 			</fileset>
 		</copy>
+		<path id="classpath">
+			<fileset dir="${dir.lib}">
+				<include name="**/*.jar" />
+			</fileset>
+		</path>
+
+		<manifestclasspath property="jar.classpath" jarfile="${jarname}">
+			<classpath refid="classpath">
+			</classpath>
+		</manifestclasspath>
 
 		<!--打包代码 输出 JAR -->
-		<jar destfile="${dir.out}\mapway-doc.jar" basedir="${dir.target}">
+		<jar destfile="${dir.out}\${jarname}" basedir="${dir.target}">
+			<manifest>
+				<attribute name="Create-Date" value="$(DSTAMP)-${TSTAMP}" />
+				<attribute name="Author" value="zhangjianshe@gmail.com" />
+				<!--
+			<attribute name="Main-Class" value="com.mapway.database2java.MainApplication" />
+			-->
+				<attribute name="Class-Path" value="nutz-1.b.53.jar" />
+			</manifest>
 
+			<service type="javax.annotation.processing.Processor">
+				<provider classname="cn.mapway.tools.DocProcessor" />
+			</service>
 		</jar>
 
 		<deltree dir="${dir.target}" />
