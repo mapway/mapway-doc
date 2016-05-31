@@ -14,6 +14,7 @@ package cn.mapway.document.gen;
 
 import java.util.Properties;
 
+import cn.mapway.document.doc.ParseType;
 import cn.mapway.document.gen.module.GenContext;
 import cn.mapway.document.meta.NutzParser;
 import cn.mapway.document.meta.module.ApiDocument;
@@ -32,12 +33,18 @@ class NutzMvcGenerator extends BaseGenerator {
 		return api;
 	}
 
-	@Override
 	public ApiDocument parsePackage(String packageName, GenContext context) {
-
 		NutzParser p = new NutzParser();
 		ApiDocument api = p.parsePackage(packageName, context);
 		return api;
 	}
+
+	@Override
+	public ApiDocument parsePackage(ParseType pt, String packageName,
+			GenContext context) {
+		return null;
+	}
+
+	
 
 }

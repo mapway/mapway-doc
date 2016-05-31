@@ -22,27 +22,8 @@ import cn.mapway.document.meta.module.ApiDocument;
  * @author zhangjianshe@navinfo.com
  * 
  */
-class RsMvcGenerator  extends BaseGenerator {
+class RsMvcGenerator  {
 
-	/**
-	 * 根据类信息生成API元数据信息
-	 * 
-	 * @param c
-	 * @param basepath
-	 * @return
-	 */
-	public ApiDocument toApiDocument(Class<?> c, GenContext context) {
-		RsParser parser = new RsParser();
-		ApiDocument api = parser.toApiDocument(c);
-		return api;
-	}
 
-	@Override
-	public ApiDocument parsePackage(String packageName, GenContext context) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	
 
 }

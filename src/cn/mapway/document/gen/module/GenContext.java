@@ -14,6 +14,7 @@ public class GenContext extends Properties {
 	private final static String BASEPATH = "BASEPATH";
 	private final static String AUTHOR = "AUTHOR";
 	private final static String DOCTITLE = "DOCTITLE";
+	private final static String NAMESPACE = "NAMESPACE";
 
 	public String getDomain() {
 		return getProperty(DOMAIN);
@@ -28,7 +29,7 @@ public class GenContext extends Properties {
 	}
 
 	public void setBasepath(String basepath) {
-		put(BASEPATH, BASEPATH);
+		put(BASEPATH, basepath);
 	}
 
 	public void setDocTitle(String docTitle) {
@@ -45,5 +46,13 @@ public class GenContext extends Properties {
 
 	public String getAuthor() {
 		return getProperty(AUTHOR);
+	}
+
+	public String getNameSpace() {
+		return getProperty(NAMESPACE);
+	}
+
+	public void setNameSpace(String namespace) {
+		put(NAMESPACE, namespace);
 	}
 }

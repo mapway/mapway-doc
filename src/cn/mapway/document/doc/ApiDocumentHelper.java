@@ -26,6 +26,7 @@ import org.nutz.lang.Times;
 import cn.mapway.document.annotation.ApiField;
 import cn.mapway.document.gen.GenClassInfo;
 import cn.mapway.document.gen.module.GenContext;
+import cn.mapway.document.javascript.JavascriptHelper;
 import cn.mapway.document.meta.DocAnotationBase;
 import cn.mapway.document.meta.module.ApiDocument;
 import cn.mapway.document.meta.module.ApiEntry;
@@ -59,6 +60,13 @@ public class ApiDocumentHelper extends DocAnotationBase {
 			info.gen = false;
 			objects.add(info);
 		}
+	}
+
+	public String genJavascript(ApiDocument api, GenContext context) {
+		JavascriptHelper helper = new JavascriptHelper();
+		api.clsName=context.getNameSpace();
+		String body = helper.toJavascript(api, context.getBasepath());
+		return body;
 	}
 
 	/**

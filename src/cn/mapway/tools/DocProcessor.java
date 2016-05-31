@@ -20,17 +20,14 @@ import org.nutz.json.Json;
  * @author zhangjianshe
  *
  */
-@SupportedAnnotationTypes({ "cn.mapway.document.annotation.Doc",
-		"cn.mapway.document.annotation.ApiField" })
-@SupportedSourceVersion(SourceVersion.RELEASE_6)
-public class DocProcessor extends AbstractProcessor {
+
+public class DocProcessor  {
 
 	public DocProcessor() {
 		super();
 	}
 
-	@SuppressWarnings("resource")
-	@Override
+	
 	public boolean process(Set<? extends TypeElement> annotations,
 			RoundEnvironment roundEnv) {
 		

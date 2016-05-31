@@ -24,26 +24,7 @@ import cn.mapway.document.meta.module.ApiDocument;
  * @author zhangjianshe@navinfo.com
  * 
  */
-class DwrMvcGenerator extends BaseGenerator {
-
-	/**
-	 * 根据类信息生成API元数据信息
-	 * 
-	 * @param c
-	 * @param basepath
-	 * @return
-	 */
-	public ApiDocument toApiDocument(Class<?> c, GenContext context) {
-		DwrParser parser = new DwrParser();
-		ApiDocument api = parser.toApiDocument(c);
-		return api;
-	}
-
-	@Override
-	public ApiDocument parsePackage(String packageName, GenContext context) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+class DwrMvcGenerator  {
 
 	
 

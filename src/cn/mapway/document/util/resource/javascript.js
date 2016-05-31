@@ -54,4 +54,6 @@ ${name}.prototype.http_get = function(url, data, handler,errorhandler) {
 	});
 };
 
-${methods}
+${methods} 
+
+var S=new ${name}();

@@ -12,7 +12,9 @@
  *******************************************************************************/
 package cn.mapway.document.gen;
 
+import cn.mapway.document.doc.ParseType;
 import cn.mapway.document.gen.module.GenContext;
+import cn.mapway.document.meta.NutzParser;
 import cn.mapway.document.meta.SpringParser;
 import cn.mapway.document.meta.module.ApiDocument;
 
@@ -37,8 +39,16 @@ class SpringMvcGenerator extends BaseGenerator {
 		return api;
 	}
 
-	@Override
 	public ApiDocument parsePackage(String packageName, GenContext context) {
+		
+		SpringParser p = new SpringParser();
+		ApiDocument api = p.parsePackage(packageName, context);
+		return api;
+	}
+	
+	@Override
+	public ApiDocument parsePackage(ParseType pt, String packageName,
+			GenContext context) {
 		// TODO Auto-generated method stub
 		return null;
 	}

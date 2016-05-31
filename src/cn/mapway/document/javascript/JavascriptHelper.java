@@ -16,6 +16,7 @@ import java.io.IOException;
 
 import cn.mapway.document.meta.module.ApiDocument;
 import cn.mapway.document.meta.module.ApiEntry;
+import cn.mapway.document.meta.module.ApiGroup;
 import cn.mapway.document.util.Template;
 
 /**
@@ -23,6 +24,31 @@ import cn.mapway.document.util.Template;
  * 
  */
 public class JavascriptHelper {
+
+	private void exportGroup(ApiDocument api, ApiGroup group, StringBuilder sb) {
+		for (ApiEntry e : group.entries) {
+			sb.append("/*\r\n");
+			sb.append(" *" + e.name + "\r\n");
+			sb.append("*/\r\n");
+
+			sb.append(api.clsName+".prototype." + e.methodName
+					+ "=function(data,ondata,onerror){\r\n");
+			if (e.invokeMethod.contains("GET")) {
+				sb.append("\t data=\\$.extend(data,{token:\\$.cookie('token')});\r\n");
+				sb.append("\t return this.http_get(this.basepath+'"
+						+ e.relativePath + "',data,ondata,onerror);\r\n");
+			} else if (e.invokeMethod.contains("POST")) {
+				sb.append("\t data=\\$.extend(data,{token:\\$.cookie('token')});\r\n");
+				sb.append("\t return this.http_post(this.basepath+'"
+						+ e.relativePath + "',data,ondata,onerror);\r\n");
+			}
+			sb.append("}\r\n");
+		}
+		for (ApiGroup g : group.getChildGroups()) {
+			exportGroup(api,g, sb);
+		}
+	}
+
 	/**
 	 * @param api
 	 * @param basepath
@@ -38,24 +64,8 @@ public class JavascriptHelper {
 		}
 
 		StringBuilder sb = new StringBuilder();
-//		for (ApiEntry e : api.entries) {
-//			sb.append("/*\r\n");
-//			sb.append(" *" + e.name + "\r\n");
-//			sb.append("*/\r\n");
-//			sb.append(api.clsName + ".prototype." + e.name
-//					+ "=function(data,ondata,onerror){\r\n");
-//			if (e.invokeMethod.contains("GET")) {
-//				sb.append("\t return this.http_get(this.basepath+'"
-//						+ api.basePath + e.relativePath
-//						+ "',data,ondata,onerror);\r\n");
-//			} else if (e.invokeMethod.contains("POST")) {
-//				sb.append("\t return this.http_post(this.basepath+'"
-//						+ e.relativePath + "',data,ondata,onerror);\r\n");
-//			}
-//			sb.append("}\r\n");
-//		}
 
-		// System.out.println(sb.toString());
+		exportGroup(api,api.root, sb);
 
 		template = template.replaceAll("\\$\\{title\\}", api.title);
 		template = template.replaceAll("\\$\\{name\\}", api.clsName);

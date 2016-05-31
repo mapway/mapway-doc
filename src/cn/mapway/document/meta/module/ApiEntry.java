@@ -21,6 +21,11 @@ import java.util.ArrayList;
  * 
  */
 public class ApiEntry {
+	
+	/**
+	 * 入口的函数名称
+	 */
+	public String methodName;
 	/**
 	 * 接口名称
 	 */

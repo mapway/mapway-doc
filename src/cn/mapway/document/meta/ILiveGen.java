@@ -12,6 +12,7 @@
  *******************************************************************************/
 package cn.mapway.document.meta;
 
+import cn.mapway.document.doc.ParseType;
 import cn.mapway.document.gen.module.GenContext;
 import cn.mapway.document.meta.module.ApiDocument;
 
@@ -23,7 +24,7 @@ import cn.mapway.document.meta.module.ApiDocument;
  */
 public interface ILiveGen {
 
-	public ApiDocument parsePackage(String packageName, GenContext context);
+	public ApiDocument parsePackage(ParseType pt,String packageName, GenContext context);
 
 	/**
 	 * 生成文档页

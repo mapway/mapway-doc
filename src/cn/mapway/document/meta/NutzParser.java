@@ -22,6 +22,7 @@ import org.nutz.json.Json;
 import org.nutz.mvc.annotation.At;
 import org.nutz.mvc.annotation.POST;
 import org.nutz.resource.Scans;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import cn.mapway.document.annotation.Doc;
 import cn.mapway.document.gen.module.GenContext;
