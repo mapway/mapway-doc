@@ -18,10 +18,13 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import javax.print.DocFlavor.READER;
+
 import org.nutz.mvc.annotation.At;
 import org.nutz.mvc.annotation.POST;
 import org.nutz.resource.Scans;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import cn.mapway.document.annotation.Doc;
 import cn.mapway.document.gen.module.GenContext;
@@ -51,7 +54,6 @@ public class SpringParser extends DocAnotationBase {
 		doc.basePath = context.getBasepath();
 		doc.title = context.getDocTitle();
 
-	
 		for (Class<?> clz : clzs) {
 			if (clz.getAnnotation(Doc.class) != null) {
 				parseClass(doc, clz);
@@ -116,7 +118,7 @@ public class SpringParser extends DocAnotationBase {
 
 			ApiEntry entry = handleMethod(m);
 			if (entry != null) {
-				entry.relativePath=basepath+entry.relativePath;
+				entry.relativePath = basepath + entry.relativePath;
 				apiGroup.entries.add(entry);
 			}
 		}
@@ -172,7 +174,7 @@ public class SpringParser extends DocAnotationBase {
 			}
 			ApiEntry entry = handleMethod(m);
 			if (entry != null) {
-				//api.entries.add(entry);
+				// api.entries.add(entry);
 			}
 		}
 
@@ -195,27 +197,32 @@ public class SpringParser extends DocAnotationBase {
 			} else {
 				e.relativePath = paths[0];
 			}
+
+			e.invokeMethod = "GET";
+			RequestMethod[] ms = rm.method();
+			if (ms != null) {
+				for (int i = 0; i < ms.length; i++) {
+					RequestMethod rm0 = ms[i];
+					if (rm0.equals(RequestMethod.POST)) {
+
+						e.invokeMethod = "POST";
+						break;
+					}
+				}
+			}
 		}
 
 		if (e.relativePath.length() == 0) {
 			return null;
 		}
-		
-		e.methodName=m.getName();
+
+		e.methodName = m.getName();
 
 		Doc summary = m.getAnnotation(Doc.class);
 		if (summary != null) {
 			e.name = summary.value();
 			e.summary = summary.desc();
 
-		}
-
-		POST post = m.getAnnotation(POST.class);
-
-		if (post == null) {
-			e.invokeMethod = "GET";
-		} else {
-			e.invokeMethod = "POST";
 		}
 
 		Class<?>[] ps = m.getParameterTypes();
@@ -235,7 +242,5 @@ public class SpringParser extends DocAnotationBase {
 		e.output = handleParameter(out);
 		return e;
 	}
-
-	
 
 }
