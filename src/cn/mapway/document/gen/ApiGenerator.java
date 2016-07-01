@@ -29,9 +29,7 @@ import cn.mapway.document.meta.module.WebData;
  */
 public class ApiGenerator implements ILiveGen {
 
-	/**
-	 * config : web > www.mapway.cn
-	 */
+	
 	@Override
 	public String genDocument(Class<?> clazz, GenContext config) {
 		if (clazz != null) {
