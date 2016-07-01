@@ -3,14 +3,30 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>cn.mapway</groupId>
 	<artifactId>mapway-doc</artifactId>
-	<version>0.0.6-SNAPSHOT</version>
+	<version>0.0.16</version>
+
 	<name>autoDoc</name>
 	<description>auto gen doc from api</description>
+	<url>http://doc.mapway.cn</url>
+
 	<properties>
 		<SpringVersion>4.2.6.RELEASE</SpringVersion>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 	</properties>
+
+	<licenses>
+		<license>
+			<name>Apache License, Version 2.0</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
+
+	<scm>
+		<url>https://github.com/mapway/mapway-doc</url>
+	</scm>
+
 	<build>
 		<sourceDirectory>src</sourceDirectory>
 		<resources>
@@ -58,8 +74,7 @@
 			<version>${SpringVersion}</version>
 		</dependency>
 	</dependencies>
-	<url>http://doc.mapway.cn</url>
-	
+
 	<distributionManagement>
 		<repository>
 			<id>sonatype_oss</id>

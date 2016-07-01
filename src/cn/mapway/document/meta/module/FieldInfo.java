@@ -21,11 +21,11 @@ import java.lang.reflect.Field;
  * 
  */
 public class FieldInfo {
-	
+
 	/**
 	 * 字段信息
 	 */
-	public Field  fld;
+	public Field fld;
 	/**
 	 * 字段说明
 	 */
@@ -35,12 +35,15 @@ public class FieldInfo {
 	 * 是否强制填写
 	 */
 	public boolean manditary = true;
-	
-	
+
 	/**
 	 * 长度
 	 */
 	public int length;
 
-	
+	/**
+	 * 例子
+	 */
+	public String example;
+
 }

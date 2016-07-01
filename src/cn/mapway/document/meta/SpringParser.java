@@ -23,8 +23,10 @@ import javax.print.DocFlavor.READER;
 import org.nutz.mvc.annotation.At;
 import org.nutz.mvc.annotation.POST;
 import org.nutz.resource.Scans;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
 import cn.mapway.document.annotation.Doc;
 import cn.mapway.document.gen.module.GenContext;
@@ -49,13 +51,15 @@ public class SpringParser extends DocAnotationBase {
 	public ApiDocument parsePackage(String packageName, GenContext context) {
 		List<Class<?>> clzs = Scans.me().scanPackage(packageName);
 
+		System.out.println("find resource " + clzs.size());
 		ApiDocument doc = new ApiDocument();
 		doc.author = context.getAuthor();
 		doc.basePath = context.getBasepath();
 		doc.title = context.getDocTitle();
 
 		for (Class<?> clz : clzs) {
-			if (clz.getAnnotation(Doc.class) != null) {
+			if (clz.getAnnotation(Controller.class) != null
+					|| clz.getAnnotation(RestController.class) != null) {
 				parseClass(doc, clz);
 			}
 		}
@@ -71,6 +75,11 @@ public class SpringParser extends DocAnotationBase {
 	 */
 	private void parseClass(ApiDocument apiDoc, Class<?> clz) {
 		Doc doc = clz.getAnnotation(Doc.class);
+		if (doc == null) {
+			System.out.println("Document " + clz.getName()
+					+ " is not annotated with Doc");
+			return;
+		}
 		String path = doc.group();
 		ApiGroup apigroup = apiDoc.findGroup(path);
 		populateGroup(apigroup, clz);

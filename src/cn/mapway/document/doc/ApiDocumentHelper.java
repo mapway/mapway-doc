@@ -18,9 +18,12 @@ import java.lang.reflect.Modifier;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.nutz.json.Json;
+import org.nutz.json.JsonFormat;
 import org.nutz.lang.Times;
 
 import cn.mapway.document.annotation.ApiField;
@@ -40,6 +43,8 @@ import cn.mapway.document.util.Template;
  * 
  */
 public class ApiDocumentHelper extends DocAnotationBase {
+
+	public Map<String, Integer> depth;
 	private ArrayList<GenClassInfo> objects = new ArrayList<GenClassInfo>();
 
 	private void addGenClass(ParameterInfo t) {
@@ -64,7 +69,7 @@ public class ApiDocumentHelper extends DocAnotationBase {
 
 	public String genJavascript(ApiDocument api, GenContext context) {
 		JavascriptHelper helper = new JavascriptHelper();
-		api.clsName=context.getNameSpace();
+		api.clsName = context.getNameSpace();
 		String body = helper.toJavascript(api, context.getBasepath());
 		return body;
 	}
@@ -117,6 +122,7 @@ public class ApiDocumentHelper extends DocAnotationBase {
 				sb1.append("<div class='m_title'>"
 						+ info.cls.clz.getSimpleName() + "</div>");
 				sb1.append(descriptObject(info.cls));
+
 				sb1.append("</div>");
 				info.gen = true;
 			}
@@ -191,8 +197,179 @@ public class ApiDocumentHelper extends DocAnotationBase {
 		sb.append(inputstbl.toString());
 		sb.append("<div class='objdesc'>传出参数：" + e.output.title + "</div>");
 		sb.append(descriptObject(e.output));
-		sb.append("</div>");
+	
 
+		// 输出数据示例
+
+		StringBuilder codeexample = new StringBuilder();
+		for (ParameterInfo i : e.input) {
+
+			codeexample.append("<div class='code'>传入参数" + i.title + "示例");
+			depth = new HashMap<String, Integer>();
+
+			codeexample
+					.append("<pre>"
+							+ Json.toJson(parameterExample(i, depth),
+									JsonFormat.full()) + "</pre>");
+			codeexample.append("</div>");
+		}
+
+		depth = new HashMap<String, Integer>();
+
+		codeexample.append("<div class='code'>传出参数示例");
+		codeexample.append("<pre>"
+				+ Json.toJson(parameterExample(e.output, depth),
+						JsonFormat.full()) + "</pre>");
+		codeexample.append("</div>");
+		sb.append(codeexample.toString());
+		sb.append("</div>");
+	}
+
+	/**
+	 * 输出参数的代码示例 JSON格式
+	 * 
+	 * @param i
+	 * @param depth2
+	 * @return
+	 */
+	private Object parameterExample(ParameterInfo i, Map<String, Integer> depth2) {
+
+		System.out.println("parse " + i.name);
+		// 创建实例
+		Object p = null;
+
+		try {
+			p = i.clz.newInstance();
+
+			for (FieldInfo fi : i.flds) {
+				Field f = fi.fld;
+				System.out.println(Json.toJson(f));
+
+				String type = f.getType().getSimpleName();
+
+				if (type.compareTo("List") == 0) {
+					// 集合类型
+					ArrayList list = new ArrayList();
+					f.set(p, list);
+
+					Type fc = f.getGenericType();
+
+					if (fc instanceof ParameterizedType) {
+						ParameterizedType pt = (ParameterizedType) fc;
+						Class<?> t = (Class<?>) pt.getActualTypeArguments()[0];
+
+						if (isPrimitive(t)) {
+
+							String tt = t.getSimpleName();
+							if (tt.contains("String")) {
+								list.add("XXXXXX");
+							} else if (tt.contains("int")
+									|| tt.contains("Integer")) {
+								list.add(0);
+							} else if (type.contains("float")
+									|| type.contains("FLoat")) {
+								list.add(0.0);
+							} else if (type.contains("Double")
+									|| type.contains("double")) {
+								list.add(0.0);
+							} else if (type.contains("Long")
+									|| type.contains("long")) {
+								list.add(0);
+							} else if (type.contains("bool")
+									|| type.contains("Boolean")) {
+								list.add(true);
+							}
+						} else {
+							ParameterInfo subInfo = handleParameter(t);
+
+							Integer count1 = depth2.get(subInfo.name);
+							if (count1 == null) {
+								depth2.put(subInfo.name, 1);
+								Object sub = parameterExample(subInfo, depth2);
+								list.add(sub);
+							} else if (count1 > 2) {
+
+							} else {
+								depth2.put(subInfo.name, count1 + 1);
+								Object sub = parameterExample(subInfo, depth2);
+								list.add(sub);
+							}
+						}
+					}
+
+				} else if (!isPrimitive(f.getType())) {
+
+					ParameterInfo subInfo = handleParameter(f.getType());
+					Integer count1 = depth2.get(subInfo.name);
+					if (count1 == null) {
+						depth2.put(subInfo.name, 1);
+						Object sub = parameterExample(subInfo, depth2);
+						f.set(p, sub);
+					} else if (count1 > 2) {
+
+					} else {
+						depth2.put(subInfo.name, count1 + 1);
+						Object sub = parameterExample(subInfo, depth2);
+						f.set(p, sub);
+					}
+				} else {
+					// 基本类型
+					if (fi.example != null) {
+
+						if (type.contains("String")) {
+							f.set(p, fi.example);
+						} else if (type.contains("int")
+								|| type.contains("Integer")) {
+							if (fi.example.length() > 0) {
+								f.set(p, Integer.valueOf(fi.example).intValue());
+							} else {
+								f.set(p, 0);
+							}
+						} else if (type.contains("float")
+								|| type.contains("FLoat")) {
+							if (fi.example.length() > 0) {
+								f.set(p, Float.valueOf(fi.example).floatValue());
+							} else {
+								f.set(p, 0.0);
+							}
+						} else if (type.contains("Double")
+								|| type.contains("double")) {
+							if (fi.example.length() > 0) {
+								f.set(p, Double.valueOf(fi.example)
+										.doubleValue());
+							} else {
+								f.set(p, 0.0);
+							}
+						} else if (type.contains("Long")
+								|| type.contains("long")) {
+							if (fi.example.length() > 0) {
+								f.set(p, Long.valueOf(fi.example).longValue());
+							} else {
+								f.set(p, 0.0);
+							}
+						} else if (type.contains("bool")
+								|| type.contains("Boolean")) {
+							if (fi.example.length() > 0) {
+								if (fi.example.compareToIgnoreCase("false") == 0
+										|| fi.example.compareToIgnoreCase("0") == 0)
+									f.set(p, false);
+								else
+									f.set(p, true);
+							} else {
+								f.set(p, false);
+							}
+						}
+					}
+				}
+			}
+
+		} catch (InstantiationException e) {
+			return null;
+		} catch (IllegalAccessException e) {
+			return null;
+		}
+
+		return p;
 	}
 
 	private void handlerGroup(int indent, ApiGroup g, StringBuilder catalog,

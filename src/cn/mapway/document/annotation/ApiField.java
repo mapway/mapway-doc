@@ -35,12 +35,20 @@ public @interface ApiField {
 	 * @return
 	 */
 	public String value();
-	
+
 	/**
 	 * 长度
+	 * 
 	 * @return
 	 */
 	public int length() default 0;
+
+	/**
+	 * 给出一个字段值得例子
+	 * 
+	 * @return
+	 */
+	public String example() default "";
 
 	/**
 	 * 是否是强制类型
