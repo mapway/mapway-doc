@@ -20,10 +20,9 @@ import cn.mapway.document.meta.module.ApiEntry;
 import cn.mapway.document.meta.module.ParameterInfo;
 
 /**
- * 处理DwrController注解 生成 ApiDocument对象
- * 
+ * 处理DwrController注解 生成 ApiDocument对象.
+ *
  * @author zhangjianshe@navinfo.com
- * 
  */
 public class DwrParser  {
 	

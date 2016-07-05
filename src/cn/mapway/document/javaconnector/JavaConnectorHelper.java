@@ -29,16 +29,22 @@ import cn.mapway.document.meta.module.FieldInfo;
 import cn.mapway.document.meta.module.ParameterInfo;
 import cn.mapway.document.util.Template;
 
+// TODO: Auto-generated Javadoc
 /**
- * 输出Java访问代码
- * 
+ * 输出Java访问代码.
+ *
  * @author zhangjianshe@navinfo.com
- * 
  */
 public class JavaConnectorHelper extends DocAnotationBase {
 
+	/** The objects. */
 	private ArrayList<GenClassInfo> objects = new ArrayList<GenClassInfo>();
 
+	/**
+	 * Adds the gen class.
+	 *
+	 * @param t the t
+	 */
 	private void addGenClass(ParameterInfo t) {
 		boolean find = false;
 		for (int i = 0; i < objects.size(); i++) {
@@ -60,10 +66,13 @@ public class JavaConnectorHelper extends DocAnotationBase {
 	}
 
 	/**
-	 * @param api
-	 * @param srcpath
-	 * @param packagename
-	 * @return
+	 * To source.
+	 *
+	 * @param api the api
+	 * @param basepath the basepath
+	 * @param srcpath the srcpath
+	 * @param packagename the packagename
+	 * @return the string
 	 */
 	public String toSource(ApiDocument api, String basepath, String srcpath,
 			String packagename) {
@@ -100,9 +109,9 @@ public class JavaConnectorHelper extends DocAnotationBase {
 	}
 
 	/**
-	 * 处理接口中模型
-	 * 
-	 * @param apis
+	 * 处理接口中模型.
+	 *
+	 * @param modules the modules
 	 */
 	private void genModules(StringBuilder modules) {
 
@@ -112,10 +121,10 @@ public class JavaConnectorHelper extends DocAnotationBase {
 	}
 
 	/**
-	 * 生成模型
-	 * 
-	 * @param modules
-	 * @param ci
+	 * 生成模型.
+	 *
+	 * @param modules the modules
+	 * @param ci the ci
 	 */
 	private void genModule(StringBuilder modules, GenClassInfo ci) {
 		ParameterInfo pi = ci.cls;
@@ -183,11 +192,11 @@ public class JavaConnectorHelper extends DocAnotationBase {
 	}
 
 	/**
-	 * 输出接口的代码
-	 * 
-	 * @param imports
-	 * @param apis
-	 * @param e
+	 * 输出接口的代码.
+	 *
+	 * @param imports the imports
+	 * @param apis the apis
+	 * @param e the e
 	 */
 	private void codeEntry(StringBuilder imports, StringBuilder apis, ApiEntry e) {
 
@@ -233,9 +242,9 @@ public class JavaConnectorHelper extends DocAnotationBase {
 	}
 
 	/**
-	 * 处理参数
-	 * 
-	 * @param info
+	 * 处理参数.
+	 *
+	 * @param info the info
 	 */
 	private void handleModule(ParameterInfo info) {
 		if (isPrimitive(info.clz)) {

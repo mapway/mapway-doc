@@ -19,11 +19,22 @@ import org.nutz.json.Json;
 import cn.mapway.document.meta.module.ApiDocument;
 import cn.mapway.document.util.Template;
 
+// TODO: Auto-generated Javadoc
 /**
+ * The Class TestPageHelper.
+ *
  * @author zhangjianshe@navinfo.com
- * 
  */
 public class TestPageHelper {
+	
+	/**
+	 * To test page.
+	 *
+	 * @param api the api
+	 * @param basepath the basepath
+	 * @param jscode the jscode
+	 * @return the string
+	 */
 	public String toTestPage(ApiDocument api, String basepath, String jscode) {
 
 		String jquery;

@@ -18,38 +18,32 @@ import java.util.Arrays;
 
 import org.nutz.json.Json;
 
+// TODO: Auto-generated Javadoc
 /**
- * Api文档结构
- * 
+ * Api文档结构.
+ *
  * @author zhangjianshe@navinfo.com
- * 
  */
 public class ApiDocument {
 
-	/**
-	 * 类名称
-	 */
+	/** 类名称. */
 	public String clsName;
-	/**
-	 * API标题
-	 */
+	
+	/** API标题. */
 	public String title = "API标题";
 
-	/**
-	 * 文档作者
-	 */
+	/** 文档作者. */
 	public String author = "zhangjianshe@mapway.cn";
 
-	/**
-	 * 控制器入口路径
-	 */
+	/** 控制器入口路径. */
 	public String basePath = "";
 
-	/**
-	 * API根节点
-	 */
+	/** API根节点. */
 	public ApiGroup root;
 
+	/**
+	 * Instantiates a new api document.
+	 */
 	public ApiDocument() {
 		root = new ApiGroup();
 		root.name = "/";
@@ -57,17 +51,18 @@ public class ApiDocument {
 	}
 
 	/**
-	 * 按照字典规则排序 Group和Entry
+	 * 按照字典规则排序 Group和Entry.
 	 */
 	public void sort()
 	{
 		root.sort();
 	}
+	
 	/**
-	 * 根据路径查找ApiGroup,如果不存在这个路径的对象，就在树中创建这个路径
-	 * 
-	 * @param path
-	 * @return
+	 * 根据路径查找ApiGroup,如果不存在这个路径的对象，就在树中创建这个路径.
+	 *
+	 * @param path the path
+	 * @return the api group
 	 */
 	public ApiGroup findGroup(String path) {
 
@@ -107,6 +102,11 @@ public class ApiDocument {
 		return g;
 	}
 
+	/**
+	 * The main method.
+	 *
+	 * @param args the arguments
+	 */
 	public static void main(String[] args) {
 
 		String path = "/ABC/DEF";

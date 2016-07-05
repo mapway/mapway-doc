@@ -14,39 +14,29 @@ package cn.mapway.document.meta.module;
 
 import java.util.ArrayList;
 
+// TODO: Auto-generated Javadoc
 /**
- * 参数信息
- * 
+ * 参数信息.
+ *
  * @author zhangjianshe@navinfo.com
- * 
  */
 public class ParameterInfo {
-	/**
-	 * 参数名称
-	 */
+	
+	/** 参数名称. */
 	public String name;
 
-	/**
-	 * 参数类型
-	 */
+	/** 参数类型. */
 	public String type;
 
-	/**
-	 * 参数说明
-	 */
+	/** 参数说明. */
 	public String title;
-	/**
-	 * 参数详细说明
-	 */
+	
+	/** 参数详细说明. */
 	public String summary;
 
-	/**
-	 * 参数的字段
-	 */
+	/** 参数的字段. */
 	public ArrayList<FieldInfo> flds = new ArrayList<FieldInfo>();
 
-	/**
-	 * 引用的参数类型
-	 */
+	/** 引用的参数类型. */
 	public Class<?> clz;
 }

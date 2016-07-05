@@ -18,11 +18,11 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+// TODO: Auto-generated Javadoc
 /**
- * API 字段注解
- * 
+ * API 字段注解.
+ *
  * @author zhangjianshe@navinfo.com
- * 
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
@@ -30,30 +30,30 @@ import java.lang.annotation.Target;
 public @interface ApiField {
 
 	/**
-	 * 描述
-	 * 
-	 * @return
+	 * 描述.
+	 *
+	 * @return the string
 	 */
 	public String value();
 
 	/**
-	 * 长度
-	 * 
-	 * @return
+	 * 长度.
+	 *
+	 * @return the int
 	 */
 	public int length() default 0;
 
 	/**
-	 * 给出一个字段值得例子
-	 * 
-	 * @return
+	 * 给出一个字段值得例子.
+	 *
+	 * @return the string
 	 */
 	public String example() default "";
 
 	/**
-	 * 是否是强制类型
-	 * 
-	 * @return
+	 * 是否是强制类型.
+	 *
+	 * @return true, if successful
 	 */
 	public boolean mandidate() default true;
 }

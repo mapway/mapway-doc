@@ -3,8 +3,14 @@ package cn.mapway.document.test;
 import cn.mapway.document.annotation.ApiField;
 import cn.mapway.document.annotation.Doc;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class GWReq.
+ */
 @Doc("网关请求基本信息")
 public class GWReq {
+	
+	/** The gateway id. */
 	@ApiField(value = "网关ID,长度20,网关注册格式：包头+网关MAC地址+校验和+包尾<br/>"
 			+ "例如:EN_78A3510982DAD1_NE" + "<ol><li>包头:EN_"
 			+ "<li>网关MAC地址:78A3510982DA(16进制表示)"
@@ -12,6 +18,7 @@ public class GWReq {
 			+ "<li>包尾:_NE</ol>", length = 20)
 	public String gatewayId = "";
 
+	/** The token id. */
 	@ApiField(value = "网关ID,重新注册会重新计算token", length = 36)
 	public String tokenId = "";
 }

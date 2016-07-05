@@ -18,20 +18,20 @@ import cn.mapway.document.meta.NutzParser;
 import cn.mapway.document.meta.SpringParser;
 import cn.mapway.document.meta.module.ApiDocument;
 
+// TODO: Auto-generated Javadoc
 /**
- * 对SpringMVC controll类生成文档
- * 
+ * 对SpringMVC controll类生成文档.
+ *
  * @author zhangjianshe@navinfo.com
- * 
  */
 class SpringMvcGenerator extends BaseGenerator {
 
 	/**
-	 * 根据类信息生成API元数据信息
-	 * 
-	 * @param c
-	 * @param basepath
-	 * @return
+	 * 根据类信息生成API元数据信息.
+	 *
+	 * @param c the c
+	 * @param context the context
+	 * @return the api document
 	 */
 	public ApiDocument toApiDocument(Class<?> c, GenContext context) {
 		SpringParser springHelper = new SpringParser();
@@ -39,6 +39,13 @@ class SpringMvcGenerator extends BaseGenerator {
 		return api;
 	}
 
+	/**
+	 * Parses the package.
+	 *
+	 * @param packageName the package name
+	 * @param context the context
+	 * @return the api document
+	 */
 	public ApiDocument parsePackage(String packageName, GenContext context) {
 		
 		SpringParser p = new SpringParser();
@@ -46,6 +53,9 @@ class SpringMvcGenerator extends BaseGenerator {
 		return api;
 	}
 	
+	/* (non-Javadoc)
+	 * @see cn.mapway.document.meta.ILiveGen#parsePackage(cn.mapway.document.doc.ParseType, java.lang.String, cn.mapway.document.gen.module.GenContext)
+	 */
 	@Override
 	public ApiDocument parsePackage(ParseType pt, String packageName,
 			GenContext context) {

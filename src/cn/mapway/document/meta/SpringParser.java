@@ -18,10 +18,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import javax.print.DocFlavor.READER;
-
 import org.nutz.mvc.annotation.At;
-import org.nutz.mvc.annotation.POST;
 import org.nutz.resource.Scans;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -36,20 +33,31 @@ import cn.mapway.document.meta.module.ApiGroup;
 import cn.mapway.document.meta.module.ParameterInfo;
 
 /**
- * 处理Spring注解 生成 ApiDocument对象
- * 
+ * 处理Spring注解 生成 ApiDocument对象.
+ *
  * @author zhangjianshe@navinfo.com
- * 
  */
 public class SpringParser extends DocAnotationBase {
+
 	/**
-	 * 处理包里和子包中拥有Doc注释的Class
-	 * 
+	 * 处理包里和子包中拥有Doc注释的Class.
+	 *
 	 * @param packageName
-	 * @return
+	 *            搜索的包名 支持以,号隔开的多个包
+	 * @param context
+	 *            the context
+	 * @return the api document
 	 */
 	public ApiDocument parsePackage(String packageName, GenContext context) {
-		List<Class<?>> clzs = Scans.me().scanPackage(packageName);
+
+		String[] pks = packageName.split(",");
+
+		ArrayList<Class<?>> clzs = new ArrayList<Class<?>>();
+
+		for (String pk : pks) {
+			List<Class<?>> clz = Scans.me().scanPackage(pk);
+			clzs.addAll(clz);
+		}
 
 		System.out.println("find resource " + clzs.size());
 		ApiDocument doc = new ApiDocument();
@@ -68,10 +76,12 @@ public class SpringParser extends DocAnotationBase {
 	}
 
 	/**
-	 * 解析类
-	 * 
+	 * 解析类.
+	 *
 	 * @param apiDoc
+	 *            the api doc
 	 * @param clz
+	 *            the clz
 	 */
 	private void parseClass(ApiDocument apiDoc, Class<?> clz) {
 		Doc doc = clz.getAnnotation(Doc.class);
@@ -87,10 +97,12 @@ public class SpringParser extends DocAnotationBase {
 	}
 
 	/**
-	 * 填充APiGroup信息
-	 * 
+	 * 填充APiGroup信息.
+	 *
 	 * @param apiGroup
+	 *            the api group
 	 * @param c
+	 *            the c
 	 */
 	private void populateGroup(ApiGroup apiGroup, Class<?> c) {
 		String basepath = "";
@@ -134,8 +146,11 @@ public class SpringParser extends DocAnotationBase {
 	}
 
 	/**
+	 * To api document.
+	 *
 	 * @param c
-	 * @return
+	 *            the c
+	 * @return the api document
 	 */
 	public ApiDocument toApiDocument(Class<?> c) {
 		ApiDocument api = new ApiDocument();
@@ -191,12 +206,15 @@ public class SpringParser extends DocAnotationBase {
 	}
 
 	/**
+	 * Handle method.
+	 *
 	 * @param m
-	 * @return
+	 *            the m
+	 * @return the api entry
 	 */
 	private ApiEntry handleMethod(Method m) {
 
-		ApiEntry e = new ApiEntry();
+		ApiEntry e = new ApiEntry(); 
 
 		RequestMapping rm = m.getAnnotation(RequestMapping.class);
 		if (rm != null) {
@@ -250,6 +268,5 @@ public class SpringParser extends DocAnotationBase {
 		}
 		e.output = handleParameter(out);
 		return e;
-	}
-
+	} 
 }

@@ -19,12 +19,21 @@ import cn.mapway.document.meta.module.ApiEntry;
 import cn.mapway.document.meta.module.ApiGroup;
 import cn.mapway.document.util.Template;
 
+// TODO: Auto-generated Javadoc
 /**
+ * The Class JavascriptHelper.
+ *
  * @author zhangjianshe@navinfo.com
- * 
  */
 public class JavascriptHelper {
 
+	/**
+	 * Export group.
+	 *
+	 * @param api the api
+	 * @param group the group
+	 * @param sb the sb
+	 */
 	private void exportGroup(ApiDocument api, ApiGroup group, StringBuilder sb) {
 		for (ApiEntry e : group.entries) {
 			sb.append("/*\r\n");
@@ -50,8 +59,11 @@ public class JavascriptHelper {
 	}
 
 	/**
-	 * @param api
-	 * @param basepath
+	 * To javascript.
+	 *
+	 * @param api the api
+	 * @param basepath the basepath
+	 * @return the string
 	 */
 	public final String toJavascript(ApiDocument api, String basepath) {
 		String template;

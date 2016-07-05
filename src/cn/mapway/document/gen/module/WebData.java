@@ -12,12 +12,20 @@
  *******************************************************************************/
 package cn.mapway.document.gen.module;
 
+// TODO: Auto-generated Javadoc
 /**
+ * The Class WebData.
+ *
  * @author zhangjianshe@navinfo.com
- * 
  */
 public class WebData {
+	
+	/** The success. */
 	public boolean success;
+	
+	/** The message. */
 	public String message;
+	
+	/** The Data. */
 	public Object Data;
 }

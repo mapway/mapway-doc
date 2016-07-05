@@ -17,10 +17,9 @@ import cn.mapway.document.meta.RsParser;
 import cn.mapway.document.meta.module.ApiDocument;
 
 /**
- * 对Nutz MVC controll类生成文档
- * 
+ * 对Nutz MVC controll类生成文档.
+ *
  * @author zhangjianshe@navinfo.com
- * 
  */
 class RsMvcGenerator  {
 

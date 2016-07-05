@@ -19,16 +19,19 @@ import cn.mapway.document.annotation.Doc;
 import cn.mapway.document.meta.module.FieldInfo;
 import cn.mapway.document.meta.module.ParameterInfo;
 
+// TODO: Auto-generated Javadoc
 /**
+ * The Class DocAnotationBase.
+ *
  * @author zhangjianshe@navinfo.com
- * 
  */
 public class DocAnotationBase {
+	
 	/**
-	 * 是否是基本类型
-	 * 
-	 * @param t
-	 * @return
+	 * 是否是基本类型.
+	 *
+	 * @param t the t
+	 * @return true, if is primitive
 	 */
 	public static final boolean isPrimitive(Class<?> t) {
 		if (t.isPrimitive()) {
@@ -41,10 +44,10 @@ public class DocAnotationBase {
 	}
 
 	/**
-	 * 处理参数
-	 * 
-	 * @param clz
-	 * @return
+	 * 处理参数.
+	 *
+	 * @param clz the clz
+	 * @return the parameter info
 	 */
 	public static ParameterInfo handleParameter(Class<?> clz) {
 		ParameterInfo p = new ParameterInfo();
@@ -78,10 +81,10 @@ public class DocAnotationBase {
 	}
 
 	/**
-	 * 处理字段
-	 * 
-	 * @param f
-	 * @return
+	 * 处理字段.
+	 *
+	 * @param f the f
+	 * @return the field info
 	 */
 	private static FieldInfo handleField(Field f) {
 		ApiField wf = f.getAnnotation(ApiField.class);

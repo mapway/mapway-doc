@@ -14,26 +14,41 @@ import javax.lang.model.element.TypeElement;
 
 import org.nutz.json.Json;
 
+// TODO: Auto-generated Javadoc
 /**
- * JAVA APT 处理工具
- * 
- * @author zhangjianshe
+ * JAVA APT 处理工具.
  *
+ * @author zhangjianshe
  */
 
 public class DocProcessor  {
 
+	/**
+	 * Instantiates a new doc processor.
+	 */
 	public DocProcessor() {
 		super();
 	}
 
 	
+	/**
+	 * Process.
+	 *
+	 * @param annotations the annotations
+	 * @param roundEnv the round env
+	 * @return true, if successful
+	 */
 	public boolean process(Set<? extends TypeElement> annotations,
 			RoundEnvironment roundEnv) {
 		
 		return false;
 	}
 
+	/**
+	 * Handle.
+	 *
+	 * @param annotations the annotations
+	 */
 	private void handle(Set<? extends TypeElement> annotations) {
 		FileWriter file = null;
 		try {

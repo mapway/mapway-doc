@@ -19,10 +19,9 @@ import cn.mapway.document.meta.DwrParser;
 import cn.mapway.document.meta.module.ApiDocument;
 
 /**
- * 对SpringMVC controll类生成文档
- * 
+ * 对SpringMVC controll类生成文档.
+ *
  * @author zhangjianshe@navinfo.com
- * 
  */
 class DwrMvcGenerator  {
 

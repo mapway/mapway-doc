@@ -7,53 +7,49 @@ import java.util.List;
 
 import org.nutz.json.Json;
 
+// TODO: Auto-generated Javadoc
 /**
- * API接口的树形组织
- * 
- * @author zhangjianshe
+ * API接口的树形组织.
  *
+ * @author zhangjianshe
  */
 public class ApiGroup {
 
-	/**
-	 * 节点名称
-	 */
+	/** 节点名称. */
 	public String name;
 
-	/**
-	 * 节点说明
-	 */
+	/** 节点说明. */
 	public String summary;
 
-	/**
-	 * 子节点
-	 */
+	/** 子节点. */
 	private List<ApiGroup> subGroup;
 
-	/**
-	 * 父节点
-	 */
+	/** 父节点. */
 	private ApiGroup   parent;
 	
 	/**
-	 * 添加子節點
-	 * @param g
+	 * 添加子節點.
+	 *
+	 * @param g the g
 	 */
 	public void addChildGroup(ApiGroup g)
 	{
 		g.setParent(this);
 		subGroup.add(g);
 	}
+	
 	/**
-	 * 清空子節點
+	 * 清空子節點.
 	 */
 	public void clearChildGroup()
 	{
 		subGroup.clear();
 	}
+	
 	/**
-	 * 移除子节点
-	 * @param g
+	 * 移除子节点.
+	 *
+	 * @param g the g
 	 */
 	public void removeChildGroup(ApiGroup g)
 	{
@@ -61,14 +57,20 @@ public class ApiGroup {
 	}
 	
 	
+	/**
+	 * Gets the child groups.
+	 *
+	 * @return the child groups
+	 */
 	public List<ApiGroup> getChildGroups()
 	{
 		return subGroup;
 	}
 	
 	/**
-	 * 获取节点的全路径
-	 * @return
+	 * 获取节点的全路径.
+	 *
+	 * @return the path
 	 */
 	public String getPath()
 	{
@@ -94,17 +96,22 @@ public class ApiGroup {
 		
 		return sb.toString();
 	}
-	/**
-	 * 接口列表
-	 */
+	
+	/** 接口列表. */
 	public List<ApiEntry> entries;
 
+	/**
+	 * Instantiates a new api group.
+	 */
 	public ApiGroup() {
 		subGroup = new ArrayList<ApiGroup>();
 		entries = new ArrayList<ApiEntry>();
 		setParent(null);
 	}
 	
+	/**
+	 * Sort.
+	 */
 	public void sort()
 	{
 		
@@ -128,10 +135,20 @@ public class ApiGroup {
 		}
 	}
 
+	/**
+	 * Gets the parent.
+	 *
+	 * @return the parent
+	 */
 	public ApiGroup getParent() {
 		return parent;
 	}
 
+	/**
+	 * Sets the parent.
+	 *
+	 * @param parent the new parent
+	 */
 	public void setParent(ApiGroup parent) {
 		this.parent = parent;
 	}

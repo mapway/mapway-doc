@@ -31,19 +31,20 @@ import cn.mapway.document.meta.module.ApiEntry;
 import cn.mapway.document.meta.module.ApiGroup;
 import cn.mapway.document.meta.module.ParameterInfo;
 
+// TODO: Auto-generated Javadoc
 /**
- * 处理Nutz注解 生成 ApiDocument对象
- * 
+ * 处理Nutz注解 生成 ApiDocument对象.
+ *
  * @author zhangjianshe@navinfo.com
- * 
  */
 public class NutzParser extends DocAnotationBase {
 
 	/**
-	 * 处理包里和子包中拥有Doc注释的Class
-	 * 
-	 * @param packageName
-	 * @return
+	 * 处理包里和子包中拥有Doc注释的Class.
+	 *
+	 * @param packageName the package name
+	 * @param context the context
+	 * @return the api document
 	 */
 	public ApiDocument parsePackage(String packageName, GenContext context) {
 		List<Class<?>> clzs = Scans.me().scanPackage(packageName);
@@ -65,10 +66,10 @@ public class NutzParser extends DocAnotationBase {
 	}
 
 	/**
-	 * 解析类
-	 * 
-	 * @param apiDoc
-	 * @param clz
+	 * 解析类.
+	 *
+	 * @param apiDoc the api doc
+	 * @param clz the clz
 	 */
 	private void parseClass(ApiDocument apiDoc, Class<?> clz) {
 		Doc doc = clz.getAnnotation(Doc.class);
@@ -79,10 +80,10 @@ public class NutzParser extends DocAnotationBase {
 	}
 
 	/**
-	 * 填充APiGroup信息
-	 * 
-	 * @param apiGroup
-	 * @param c
+	 * 填充APiGroup信息.
+	 *
+	 * @param apiGroup the api group
+	 * @param c the c
 	 */
 	private void populateGroup(ApiGroup apiGroup, Class<?> c) {
 		String basepath = "";
@@ -128,8 +129,10 @@ public class NutzParser extends DocAnotationBase {
 	}
 
 	/**
-	 * @param c
-	 * @return
+	 * To api document.
+	 *
+	 * @param c the c
+	 * @return the api document
 	 */
 	public ApiDocument toApiDocument(Class<?> c) {
 		ApiDocument api = new ApiDocument();
@@ -185,8 +188,10 @@ public class NutzParser extends DocAnotationBase {
 	}
 
 	/**
-	 * @param m
-	 * @return
+	 * Handle method.
+	 *
+	 * @param m the m
+	 * @return the api entry
 	 */
 	private ApiEntry handleMethod(Method m) {
 
@@ -240,6 +245,11 @@ public class NutzParser extends DocAnotationBase {
 		return e;
 	}
 
+	/**
+	 * The main method.
+	 *
+	 * @param args the arguments
+	 */
 	public static void main(String[] args) {
 		NutzParser p=new NutzParser();
 		p.parsePackage("", new GenContext());

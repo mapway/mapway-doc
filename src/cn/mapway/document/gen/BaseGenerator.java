@@ -21,20 +21,26 @@ import cn.mapway.document.meta.ILiveGen;
 import cn.mapway.document.meta.module.ApiDocument;
 import cn.mapway.document.testpage.TestPageHelper;
 
+// TODO: Auto-generated Javadoc
 /**
+ * The Class BaseGenerator.
+ *
  * @author zhangjianshe@navinfo.com
- * 
  */
 public abstract class BaseGenerator implements ILiveGen {
+	
 	/**
-	 * 根据类信息生成API元数据信息
-	 * 
-	 * @param c
-	 * @param basepath
-	 * @return
+	 * 根据类信息生成API元数据信息.
+	 *
+	 * @param clazz the clazz
+	 * @param context the context
+	 * @return the api document
 	 */
 	public abstract ApiDocument toApiDocument(Class<?> clazz, GenContext context);
 
+	/* (non-Javadoc)
+	 * @see cn.mapway.document.meta.ILiveGen#genDocument(java.lang.Class, cn.mapway.document.gen.module.GenContext)
+	 */
 	public String genDocument(Class<?> c, GenContext config) {
 		ApiDocument api = toApiDocument(c, config);
 		ApiDocumentHelper helper = new ApiDocumentHelper();
@@ -42,6 +48,9 @@ public abstract class BaseGenerator implements ILiveGen {
 		return body;
 	}
 
+	/* (non-Javadoc)
+	 * @see cn.mapway.document.meta.ILiveGen#genJavascript(java.lang.Class, java.lang.String)
+	 */
 	public String genJavascript(Class<?> c,  String basepath) {
 		
 		ApiDocument api = toApiDocument(c,  new GenContext());
@@ -50,6 +59,9 @@ public abstract class BaseGenerator implements ILiveGen {
 		return body;
 	}
 
+	/* (non-Javadoc)
+	 * @see cn.mapway.document.meta.ILiveGen#genTestPage(java.lang.Class, java.lang.String)
+	 */
 	public String genTestPage(Class<?> c, String basepath) {
 		ApiDocument api = toApiDocument(c, new GenContext());
 		TestPageHelper helper = new TestPageHelper();
@@ -58,6 +70,9 @@ public abstract class BaseGenerator implements ILiveGen {
 		return body;
 	}
 
+	/* (non-Javadoc)
+	 * @see cn.mapway.document.meta.ILiveGen#genGwtRpc(java.lang.Class, java.lang.String, java.lang.String, java.lang.String)
+	 */
 	public String genGwtRpc(Class<?> c, String basepath, String srcpath,
 			String packagename) {
 		GenContext context=new GenContext();

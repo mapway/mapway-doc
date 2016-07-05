@@ -14,11 +14,17 @@ package cn.mapway.document.gen;
 
 import cn.mapway.document.meta.module.ParameterInfo;
 
+// TODO: Auto-generated Javadoc
 /**
+ * The Class GenClassInfo.
+ *
  * @author zhangjianshe@navinfo.com
- * 
  */
 public class GenClassInfo {
+	
+	/** The cls. */
 	public ParameterInfo cls;
+	
+	/** The gen. */
 	public boolean gen;
 }

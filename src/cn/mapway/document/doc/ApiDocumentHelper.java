@@ -38,15 +38,25 @@ import cn.mapway.document.meta.module.FieldInfo;
 import cn.mapway.document.meta.module.ParameterInfo;
 import cn.mapway.document.util.Template;
 
+// TODO: Auto-generated Javadoc
 /**
+ * The Class ApiDocumentHelper.
+ *
  * @author zhangjianshe@navinfo.com
- * 
  */
 public class ApiDocumentHelper extends DocAnotationBase {
 
+	/** The depth. */
 	public Map<String, Integer> depth;
+	
+	/** The objects. */
 	private ArrayList<GenClassInfo> objects = new ArrayList<GenClassInfo>();
 
+	/**
+	 * Adds the gen class.
+	 *
+	 * @param t the t
+	 */
 	private void addGenClass(ParameterInfo t) {
 		boolean find = false;
 		for (int i = 0; i < objects.size(); i++) {
@@ -67,6 +77,13 @@ public class ApiDocumentHelper extends DocAnotationBase {
 		}
 	}
 
+	/**
+	 * Gen javascript.
+	 *
+	 * @param api the api
+	 * @param context the context
+	 * @return the string
+	 */
 	public String genJavascript(ApiDocument api, GenContext context) {
 		JavascriptHelper helper = new JavascriptHelper();
 		api.clsName = context.getNameSpace();
@@ -75,8 +92,11 @@ public class ApiDocumentHelper extends DocAnotationBase {
 	}
 
 	/**
-	 * @param api
-	 * @return
+	 * Gendoc.
+	 *
+	 * @param api the api
+	 * @param context the context
+	 * @return the string
 	 */
 	public String gendoc(ApiDocument api, GenContext context) {
 
@@ -161,6 +181,14 @@ public class ApiDocumentHelper extends DocAnotationBase {
 		return template;
 	}
 
+	/**
+	 * Handler entry.
+	 *
+	 * @param indent the indent
+	 * @param e the e
+	 * @param catalog the catalog
+	 * @param sb the sb
+	 */
 	private void handlerEntry(int indent, ApiEntry e, StringBuilder catalog,
 			StringBuilder sb) {
 
@@ -226,11 +254,11 @@ public class ApiDocumentHelper extends DocAnotationBase {
 	}
 
 	/**
-	 * 输出参数的代码示例 JSON格式
-	 * 
-	 * @param i
-	 * @param depth2
-	 * @return
+	 * 输出参数的代码示例 JSON格式.
+	 *
+	 * @param i the i
+	 * @param depth2 the depth 2
+	 * @return the object
 	 */
 	private Object parameterExample(ParameterInfo i, Map<String, Integer> depth2) {
 
@@ -372,6 +400,15 @@ public class ApiDocumentHelper extends DocAnotationBase {
 		return p;
 	}
 
+	/**
+	 * Handler group.
+	 *
+	 * @param indent the indent
+	 * @param g the g
+	 * @param catalog the catalog
+	 * @param detail the detail
+	 * @param apiIndex the api index
+	 */
 	private void handlerGroup(int indent, ApiGroup g, StringBuilder catalog,
 			StringBuilder detail, StringBuilder apiIndex) {
 
@@ -424,10 +461,10 @@ public class ApiDocumentHelper extends DocAnotationBase {
 	}
 
 	/**
-	 * 描述对象信息
-	 * 
-	 * @param c
-	 * @return
+	 * 描述对象信息.
+	 *
+	 * @param info the info
+	 * @return the string
 	 */
 	private String descriptObject(ParameterInfo info) {
 		StringBuilder sb = new StringBuilder();

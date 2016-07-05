@@ -21,15 +21,18 @@ import cn.mapway.document.meta.ILiveGen;
 import cn.mapway.document.meta.module.ApiDocument;
 import cn.mapway.document.meta.module.WebData;
 
+// TODO: Auto-generated Javadoc
 /**
- * API生成对象
- * 
+ * API生成对象.
+ *
  * @author zhangjianshe@navinfo.com
- * 
  */
 public class ApiGenerator implements ILiveGen {
 
 	
+	/* (non-Javadoc)
+	 * @see cn.mapway.document.meta.ILiveGen#genDocument(java.lang.Class, cn.mapway.document.gen.module.GenContext)
+	 */
 	@Override
 	public String genDocument(Class<?> clazz, GenContext config) {
 		if (clazz != null) {
@@ -157,6 +160,9 @@ public class ApiGenerator implements ILiveGen {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see cn.mapway.document.meta.ILiveGen#parsePackage(cn.mapway.document.doc.ParseType, java.lang.String, cn.mapway.document.gen.module.GenContext)
+	 */
 	@Override
 	public ApiDocument parsePackage(ParseType pt, String packageName,
 			GenContext context) {

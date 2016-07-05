@@ -16,20 +16,20 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
+// TODO: Auto-generated Javadoc
 /**
- * 模板类
- * 
+ * 模板类.
+ *
  * @author zhangjianshe@navinfo.com
- * 
  */
 public class Template {
 
 	/**
-	 * 读取相对资源路径
-	 * 
-	 * @param fileName
-	 * @return
-	 * @throws IOException
+	 * 读取相对资源路径.
+	 *
+	 * @param fileName the file name
+	 * @return the string
+	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
 	public final static String readTemplate(String fileName) throws IOException {
 		

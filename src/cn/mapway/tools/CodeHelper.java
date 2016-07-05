@@ -12,16 +12,18 @@
 *******************************************************************************/
 package cn.mapway.tools;
 
+// TODO: Auto-generated Javadoc
 /**
- * 代码生成主入口
- * @author zhangjianshe@navinfo.com
+ * 代码生成主入口.
  *
+ * @author zhangjianshe@navinfo.com
  */
 public class CodeHelper {
 
 	/**
-	 * 
-	 * @param args
+	 * The main method.
+	 *
+	 * @param args the arguments
 	 */
 	public static void main(String[] args) {
 		
