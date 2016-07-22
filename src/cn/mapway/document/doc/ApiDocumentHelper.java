@@ -373,7 +373,7 @@ public class ApiDocumentHelper extends DocAnotationBase {
 							if (fi.example.length() > 0) {
 								f.set(p, Long.valueOf(fi.example).longValue());
 							} else {
-								f.set(p, 0.0);
+								f.set(p, 0l);
 							}
 						} else if (type.contains("bool")
 								|| type.contains("Boolean")) {
