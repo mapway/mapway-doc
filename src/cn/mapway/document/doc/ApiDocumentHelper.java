@@ -171,6 +171,10 @@ public class ApiDocumentHelper extends DocAnotationBase {
 			e.printStackTrace();
 			return "";
 		}
+
+		template = template.replaceAll("\\$\\{basePath\\}",
+				context.getBasepath());
+
 		template = template.replaceAll("\\$\\{page_title\\}", api.title);
 
 		template = template.replaceAll("\\$\\{page_catalog\\}",
