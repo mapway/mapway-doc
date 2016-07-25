@@ -123,7 +123,7 @@ public class ApiDocumentHelper extends DocAnotationBase {
 
 		int indent = 1;
 		for (ApiGroup g : api.root.getChildGroups()) {
-			handlerGroup(indent, g, catalog, sb, apiIndex);
+			handlerGroup(indent, g, catalog, sb, apiIndex, context);
 		}
 		catalog.append("</div>");
 
@@ -203,7 +203,7 @@ public class ApiDocumentHelper extends DocAnotationBase {
 	 *            the sb
 	 */
 	private void handlerEntry(int indent, ApiEntry e, StringBuilder catalog,
-			StringBuilder sb) {
+			StringBuilder sb, GenContext context) {
 
 		String id = e.relativePath.replace("/", "");
 
@@ -220,9 +220,10 @@ public class ApiDocumentHelper extends DocAnotationBase {
 				+ "<div class='m_subtitle'>" + e.summary + "</div>"
 				+ "</td></tr>");
 
-		sb.append("<tr><td class='m_path' ><a href='" + e.relativePath
-				+ "' target='_blank'>" + e.relativePath
-				+ "</a></td><td align='right'>开发人员:" + e.author + "</td></tr>");
+		sb.append("<tr><td class='m_path' ><a href='" + context.getBasepath()
+				+ e.relativePath + "' target='_blank'>" + context.getBasepath()
+				+ e.relativePath + "</a></td><td align='right'>开发人员:"
+				+ e.author + "</td></tr>");
 
 		sb.append("<tr><td colspan='2' >调用方法:" + e.invokeMethod + "</td></tr>");
 		sb.append("</table>");
@@ -429,7 +430,7 @@ public class ApiDocumentHelper extends DocAnotationBase {
 	 *            the api index
 	 */
 	private void handlerGroup(int indent, ApiGroup g, StringBuilder catalog,
-			StringBuilder detail, StringBuilder apiIndex) {
+			StringBuilder detail, StringBuilder apiIndex, GenContext context) {
 
 		String cls = "tree" + (indent++);
 
@@ -457,6 +458,7 @@ public class ApiDocumentHelper extends DocAnotationBase {
 						+ "</td>");
 				apiIndex.append("<td width='250px'>" + e.name + "</td>");
 				apiIndex.append("<td>" + e.relativePath + "</td>");
+				apiIndex.append("<td align='right'>" + e.author + "</td>");
 				apiIndex.append("</tr>");
 			}
 			apiIndex.append("</table>");
@@ -464,7 +466,7 @@ public class ApiDocumentHelper extends DocAnotationBase {
 
 		// handler subgroup
 		for (ApiGroup subg : g.getChildGroups()) {
-			handlerGroup(indent, subg, catalog, detail, apiIndex);
+			handlerGroup(indent, subg, catalog, detail, apiIndex, context);
 		}
 
 		// handle entry
@@ -472,7 +474,7 @@ public class ApiDocumentHelper extends DocAnotationBase {
 		if (g.entries.size() > 0) {
 			catalog.append("<ol>");
 			for (ApiEntry e : g.entries) {
-				handlerEntry(indent, e, catalog, detail);
+				handlerEntry(indent, e, catalog, detail, context);
 			}
 			catalog.append("</ol>");
 		}
