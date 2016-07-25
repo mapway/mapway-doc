@@ -14,10 +14,10 @@ package cn.mapway.document.meta;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
+import org.nutz.log.Log;
+import org.nutz.log.Logs;
 import org.nutz.mvc.annotation.At;
 import org.nutz.resource.Scans;
 import org.springframework.stereotype.Controller;
@@ -39,6 +39,8 @@ import cn.mapway.document.meta.module.ParameterInfo;
  */
 public class SpringParser extends DocAnotationBase {
 
+	private final static Log log = Logs.getLog(SpringParser.class);
+
 	/**
 	 * 处理包里和子包中拥有Doc注释的Class.
 	 *
@@ -59,7 +61,7 @@ public class SpringParser extends DocAnotationBase {
 			clzs.addAll(clz);
 		}
 
-		System.out.println("find resource " + clzs.size());
+		log.info("find resource " + clzs.size());
 		ApiDocument doc = new ApiDocument();
 		doc.author = context.getAuthor();
 		doc.basePath = context.getBasepath();
@@ -86,7 +88,7 @@ public class SpringParser extends DocAnotationBase {
 	private void parseClass(ApiDocument apiDoc, Class<?> clz) {
 		Doc doc = clz.getAnnotation(Doc.class);
 		if (doc == null) {
-			System.out.println("Document " + clz.getName()
+			log.debug("Document " + clz.getName()
 					+ " is not annotated with Doc");
 			return;
 		}
