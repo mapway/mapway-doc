@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>cn.mapway</groupId>
 	<artifactId>mapway-doc</artifactId>
-	<version>0.0.19</version>
+	<version>0.0.20</version>
 
 	<name>mapway-doc</name>
 	<description>auto gen doc from api</description>
@@ -13,7 +13,7 @@
 		<SpringVersion>4.2.6.RELEASE</SpringVersion>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-	    <gpg.keyname>50420238</gpg.keyname>
+		<gpg.keyname>50420238</gpg.keyname>
 	</properties>
 
 	<licenses>
@@ -55,7 +55,7 @@
 				<configuration>
 					<source>1.7</source>
 					<target>1.7</target>
-				</configuration>		
+				</configuration>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -103,7 +103,7 @@
 							</execution>
 						</executions>
 					</plugin>
-					
+
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-javadoc-plugin</artifactId>
@@ -117,7 +117,7 @@
 							</execution>
 						</executions>
 					</plugin>
-					
+
 					<!-- GPG -->
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
@@ -130,7 +130,7 @@
 									<goal>sign</goal>
 								</goals>
 							</execution>
-							
+
 						</executions>
 					</plugin>
 				</plugins>
@@ -148,5 +148,5 @@
 		</profile>
 	</profiles>
 
-	
+
 </project>

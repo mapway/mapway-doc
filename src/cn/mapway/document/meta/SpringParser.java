@@ -126,14 +126,6 @@ public class SpringParser extends DocAnotationBase {
 			}
 		}
 
-		Collections.sort(list, new Comparator<Method>() {
-			@Override
-			public int compare(Method o1, Method o2) {
-				return o1.getName().compareTo(o2.getName());
-
-			}
-		});
-
 		for (int i = 0; i < list.size(); i++) {
 			Method m = list.get(i);
 
@@ -183,14 +175,6 @@ public class SpringParser extends DocAnotationBase {
 			}
 		}
 
-		Collections.sort(list, new Comparator<Method>() {
-			@Override
-			public int compare(Method o1, Method o2) {
-				return o1.getName().compareTo(o2.getName());
-
-			}
-		});
-
 		for (int i = 0; i < list.size(); i++) {
 			Method m = list.get(i);
 			if (m.getName().equals("index")) {
@@ -214,7 +198,7 @@ public class SpringParser extends DocAnotationBase {
 	 */
 	private ApiEntry handleMethod(Method m) {
 
-		ApiEntry e = new ApiEntry(); 
+		ApiEntry e = new ApiEntry();
 
 		RequestMapping rm = m.getAnnotation(RequestMapping.class);
 		if (rm != null) {
@@ -249,7 +233,8 @@ public class SpringParser extends DocAnotationBase {
 		if (summary != null) {
 			e.name = summary.value();
 			e.summary = summary.desc();
-
+			e.order = summary.order();
+			e.author = summary.author();
 		}
 
 		Class<?>[] ps = m.getParameterTypes();
@@ -268,5 +253,5 @@ public class SpringParser extends DocAnotationBase {
 		}
 		e.output = handleParameter(out);
 		return e;
-	} 
+	}
 }

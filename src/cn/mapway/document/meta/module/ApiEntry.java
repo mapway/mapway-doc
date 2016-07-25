@@ -21,16 +21,16 @@ import java.util.ArrayList;
  * @author zhangjianshe@navinfo.com
  */
 public class ApiEntry {
-	
+
 	/** 入口的函数名称. */
 	public String methodName;
-	
+
 	/** 接口名称. */
 	public String name;
 
 	/** 接口说明. */
 	public String summary = "";
-	
+
 	/** 接口相对路径. */
 	public String relativePath = "";
 
@@ -42,4 +42,14 @@ public class ApiEntry {
 
 	/** 输出参数. */
 	public ParameterInfo output;
+
+	/**
+	 * 接口的排序值
+	 */
+	public int order;
+
+	/**
+	 * 接口创建者
+	 */
+	public String author;
 }

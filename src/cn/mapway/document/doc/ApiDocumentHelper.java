@@ -48,14 +48,15 @@ public class ApiDocumentHelper extends DocAnotationBase {
 
 	/** The depth. */
 	public Map<String, Integer> depth;
-	
+
 	/** The objects. */
 	private ArrayList<GenClassInfo> objects = new ArrayList<GenClassInfo>();
 
 	/**
 	 * Adds the gen class.
 	 *
-	 * @param t the t
+	 * @param t
+	 *            the t
 	 */
 	private void addGenClass(ParameterInfo t) {
 		boolean find = false;
@@ -80,8 +81,10 @@ public class ApiDocumentHelper extends DocAnotationBase {
 	/**
 	 * Gen javascript.
 	 *
-	 * @param api the api
-	 * @param context the context
+	 * @param api
+	 *            the api
+	 * @param context
+	 *            the context
 	 * @return the string
 	 */
 	public String genJavascript(ApiDocument api, GenContext context) {
@@ -94,8 +97,10 @@ public class ApiDocumentHelper extends DocAnotationBase {
 	/**
 	 * Gendoc.
 	 *
-	 * @param api the api
-	 * @param context the context
+	 * @param api
+	 *            the api
+	 * @param context
+	 *            the context
 	 * @return the string
 	 */
 	public String gendoc(ApiDocument api, GenContext context) {
@@ -184,10 +189,14 @@ public class ApiDocumentHelper extends DocAnotationBase {
 	/**
 	 * Handler entry.
 	 *
-	 * @param indent the indent
-	 * @param e the e
-	 * @param catalog the catalog
-	 * @param sb the sb
+	 * @param indent
+	 *            the indent
+	 * @param e
+	 *            the e
+	 * @param catalog
+	 *            the catalog
+	 * @param sb
+	 *            the sb
 	 */
 	private void handlerEntry(int indent, ApiEntry e, StringBuilder catalog,
 			StringBuilder sb) {
@@ -207,9 +216,9 @@ public class ApiDocumentHelper extends DocAnotationBase {
 				+ "<div class='m_subtitle'>" + e.summary + "</div>"
 				+ "</td></tr>");
 
-		sb.append("<tr><td colspan='2' class='m_path' ><a href='"
-				+ e.relativePath + e.relativePath + "' target='_blank'>"
-				+ e.relativePath + "</a></td></tr>");
+		sb.append("<tr><td class='m_path' ><a href='" + e.relativePath
+				+ "' target='_blank'>" + e.relativePath
+				+ "</a></td><td align='right'>开发人员:" + e.author + "</td></tr>");
 
 		sb.append("<tr><td colspan='2' >调用方法:" + e.invokeMethod + "</td></tr>");
 		sb.append("</table>");
@@ -225,7 +234,6 @@ public class ApiDocumentHelper extends DocAnotationBase {
 		sb.append(inputstbl.toString());
 		sb.append("<div class='objdesc'>传出参数：" + e.output.title + "</div>");
 		sb.append(descriptObject(e.output));
-	
 
 		// 输出数据示例
 
@@ -256,13 +264,15 @@ public class ApiDocumentHelper extends DocAnotationBase {
 	/**
 	 * 输出参数的代码示例 JSON格式.
 	 *
-	 * @param i the i
-	 * @param depth2 the depth 2
+	 * @param i
+	 *            the i
+	 * @param depth2
+	 *            the depth 2
 	 * @return the object
 	 */
 	private Object parameterExample(ParameterInfo i, Map<String, Integer> depth2) {
 
-		System.out.println("parse " + i.name);
+		// System.out.println("parse " + i.name);
 		// 创建实例
 		Object p = null;
 
@@ -271,7 +281,7 @@ public class ApiDocumentHelper extends DocAnotationBase {
 
 			for (FieldInfo fi : i.flds) {
 				Field f = fi.fld;
-				System.out.println(Json.toJson(f));
+				// System.out.println(Json.toJson(f));
 
 				String type = f.getType().getSimpleName();
 
@@ -403,11 +413,16 @@ public class ApiDocumentHelper extends DocAnotationBase {
 	/**
 	 * Handler group.
 	 *
-	 * @param indent the indent
-	 * @param g the g
-	 * @param catalog the catalog
-	 * @param detail the detail
-	 * @param apiIndex the api index
+	 * @param indent
+	 *            the indent
+	 * @param g
+	 *            the g
+	 * @param catalog
+	 *            the catalog
+	 * @param detail
+	 *            the detail
+	 * @param apiIndex
+	 *            the api index
 	 */
 	private void handlerGroup(int indent, ApiGroup g, StringBuilder catalog,
 			StringBuilder detail, StringBuilder apiIndex) {
@@ -463,7 +478,8 @@ public class ApiDocumentHelper extends DocAnotationBase {
 	/**
 	 * 描述对象信息.
 	 *
-	 * @param info the info
+	 * @param info
+	 *            the info
 	 * @return the string
 	 */
 	private String descriptObject(ParameterInfo info) {

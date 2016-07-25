@@ -29,7 +29,7 @@ import java.lang.annotation.Target;
 @Target({ ElementType.METHOD, ElementType.CONSTRUCTOR, ElementType.TYPE,
 		ElementType.FIELD })
 public @interface Doc {
-	
+
 	/**
 	 * 描述信息,对要描述的类和方法做出解释和说明/title.
 	 *
@@ -50,13 +50,18 @@ public @interface Doc {
 	 * @return the string
 	 */
 	public String author() default "zhangjianshe@gmail.com";
-	
+
 	/**
 	 * 接口分组信息 ,以 /为分隔符 进行树形分组，缺省归属为根节点.
 	 *
 	 * @return the string
 	 */
 	public String group() default "/";
-	
-	
+
+	/**
+	 * 接口在分组中的排序
+	 * 
+	 * @return
+	 */
+	public int order() default 0;
 }
