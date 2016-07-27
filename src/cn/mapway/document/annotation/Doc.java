@@ -64,4 +64,12 @@ public @interface Doc {
 	 * @return
 	 */
 	public int order() default 0;
+
+	/**
+	 * 开发状态
+	 * 
+	 * @return
+	 */
+	public DevelopmentState state() default DevelopmentState.UNSTART;
+
 }

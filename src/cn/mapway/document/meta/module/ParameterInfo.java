@@ -14,7 +14,7 @@ package cn.mapway.document.meta.module;
 
 import java.util.ArrayList;
 
-// TODO: Auto-generated Javadoc
+
 /**
  * 参数信息.
  *

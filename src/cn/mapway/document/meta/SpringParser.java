@@ -132,6 +132,7 @@ public class SpringParser extends DocAnotationBase {
 			Method m = list.get(i);
 
 			ApiEntry entry = handleMethod(m);
+			entry.parentClassName = c.getName();
 			if (entry != null) {
 				entry.relativePath = basepath + entry.relativePath;
 				apiGroup.entries.add(entry);
@@ -237,6 +238,7 @@ public class SpringParser extends DocAnotationBase {
 			e.summary = summary.desc();
 			e.order = summary.order();
 			e.author = summary.author();
+			e.state = summary.state();
 		}
 
 		Class<?>[] ps = m.getParameterTypes();

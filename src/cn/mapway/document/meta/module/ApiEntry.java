@@ -14,6 +14,8 @@ package cn.mapway.document.meta.module;
 
 import java.util.ArrayList;
 
+import cn.mapway.document.annotation.DevelopmentState;
+
 // TODO: Auto-generated Javadoc
 /**
  * API入口.
@@ -52,4 +54,14 @@ public class ApiEntry {
 	 * 接口创建者
 	 */
 	public String author;
+
+	/**
+	 * 方法所在的类
+	 */
+	public String parentClassName;
+
+	/**
+	 * 开发状态
+	 */
+	public DevelopmentState state;
 }

@@ -27,6 +27,7 @@ import org.nutz.json.JsonFormat;
 import org.nutz.lang.Times;
 
 import cn.mapway.document.annotation.ApiField;
+import cn.mapway.document.annotation.DevelopmentState;
 import cn.mapway.document.gen.GenClassInfo;
 import cn.mapway.document.gen.module.GenContext;
 import cn.mapway.document.javascript.JavascriptHelper;
@@ -216,14 +217,15 @@ public class ApiDocumentHelper extends DocAnotationBase {
 		sb.append("<a class='bookmark' style='height:60px;display:block;' id='"
 				+ id + "'></a>");
 		sb.append("<div class='m_block'><table width='100%' cellpadding='5px'>");
-		sb.append("<tr><td colspan='2' class='m_title' >" + e.name
-				+ "<div class='m_subtitle'>" + e.summary + "</div>"
-				+ "</td></tr>");
+		sb.append("<tr><td colspan='2' class='m_title' >" + e.name + "("
+				+ e.parentClassName + ")" + "<div class='m_subtitle'>"
+				+ e.summary + "</div>" + "</td></tr>");
 
+		String state = getState(e.state);
 		sb.append("<tr><td class='m_path' ><a href='" + context.getBasepath()
 				+ e.relativePath + "' target='_blank'>" + context.getBasepath()
 				+ e.relativePath + "</a></td><td align='right'>开发人员:"
-				+ e.author + "</td></tr>");
+				+ e.author + "(" + state + ")</td></tr>");
 
 		sb.append("<tr><td colspan='2' >调用方法:" + e.invokeMethod + "</td></tr>");
 		sb.append("</table>");
@@ -264,6 +266,21 @@ public class ApiDocumentHelper extends DocAnotationBase {
 		codeexample.append("</div>");
 		sb.append(codeexample.toString());
 		sb.append("</div>");
+	}
+
+	private String getState(DevelopmentState state) {
+		switch (state) {
+		case UNSTART:
+			return "未开发";
+		case PROCESS:
+			return "开发中";
+		case FINISH:
+			return "已完成";
+		case OBSOLETED:
+			return "已废除";
+		default:
+			return "";
+		}
 	}
 
 	/**
@@ -458,6 +475,8 @@ public class ApiDocumentHelper extends DocAnotationBase {
 						+ "</td>");
 				apiIndex.append("<td width='250px'>" + e.name + "</td>");
 				apiIndex.append("<td>" + e.relativePath + "</td>");
+				apiIndex.append("<td align='right'>" + getState(e.state)
+						+ "</td>");
 				apiIndex.append("<td align='right'>" + e.author + "</td>");
 				apiIndex.append("</tr>");
 			}
