@@ -69,7 +69,7 @@ public class DocAnotationBase {
 		}
 
 		p.summary = sum + (summary == null ? "" : summary.desc());
-		//p.clz = clz;
+		p.clz = clz;
 
 		for (Field f : clz.getFields()) {
 			FieldInfo fld = handleField(f);
